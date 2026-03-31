@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tasso di occupazione UE 2024 – per sesso, istruzione e figli</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f7f8fa;
+      color: #1a1a2e;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .card {
+      max-width: 820px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 2rem 2rem 1.5rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+
+    h2 {
+      font-size: 17px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+
+    .sub {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+    }
+
+    .ctrl-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+
+    .ctrl-label {
+      font-size: 13px;
+      color: #6b7280;
+      white-space: nowrap;
+    }
+
+    .pill-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 5px 16px;
+      border-radius: 20px;
+      border: 1px solid #d1d5db;
+      font-size: 13px;
+      cursor: pointer;
+      background: #fff;
+      color: #6b7280;
+      transition: background .15s, color .15s, border-color .15s;
+      user-select: none;
+    }
+
+    .pill.active {
+      background: #185FA5;
+      color: #fff;
+      border-color: #185FA5;
+    }
+
+    .pill:hover:not(.active) {
+      background: #f3f4f6;
+      border-color: #9ca3af;
+    }
+
+    .legend {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .leg-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 340px;
+    }
+
+    .note {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 1.25rem;
+    }
+
+    @media (max-width: 500px) {
+      .card { padding: 1.25rem 1rem 1rem; }
+      h2 { font-size: 15px; }
+      .chart-wrapper { height: 260px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Tasso di occupazione nell'UE per sesso, istruzione e numero di figli (2024)</h2>
+    <p class="sub">Persone di 20–49 anni &nbsp;·&nbsp; Fonte: Eurostat / ADL</p>
+
+    <div class="ctrl-bar">
+      <span class="ctrl-label">Livello di istruzione:</span>
+      <div class="pill-group" id="edu-group">
+        <div class="pill active" data-edu="all">Tutti i livelli</div>
+        <div class="pill" data-edu="low">Bassa</div>
+        <div class="pill" data-edu="med">Media</div>
+        <div class="pill" data-edu="high">Alta</div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><span class="leg-dot" style="background:#378ADD"></span>Uomini</span>
+      <span><span class="leg-dot" style="background:#D4537E"></span>Donne</span>
+      <span><span class="leg-dot" style="background:#1D9E75"></span>Gap (U−D, asse dx)</span>
+    </div>
+
+    <div class="chart-wrapper">
+      <canvas id="empChart"></canvas>
+    </div>
+
+    <p class="note">
+      * 0 figli = nessun figlio nel nucleo familiare &nbsp;|&nbsp;
+      Il gap è espresso in punti percentuali (pp) sull'asse destro.
+    </p>
+  </div>
+
+  <script>
+    const data = {
+      all: {
+        labels: ['0 figli', '1 figlio', '2 figli', '3+ figli'],
+        men:   [80.1, 91.2, 92.4, 88.6],
+        women: [75.8, 72.3, 62.1, 44.2]
+      },
+      low: {
+        labels: ['0 figli', '1 figlio', '2 figli', '3+ figli'],
+        men:   [65.4, 79.8, 81.2, 75.3],
+        women: [55.1, 45.2, 35.8, 24.6]
+      },
+      med: {
+        labels: ['0 figli', '1 figlio', '2 figli', '3+ figli'],
+        men:   [79.3, 90.5, 91.8, 88.0],
+        women: [74.2, 69.8, 60.4, 43.1]
+      },
+      high: {
+        labels: ['0 figli', '1 figlio', '2 figli', '3+ figli'],
+        men:   [89.2, 94.8, 95.3, 92.1],
+        women: [87.1, 84.3, 77.2, 61.4]
+      }
+    };
+
+    function buildData(key) {
+      const d = data[key];
+      const gap = d.men.map((m, i) => +(m - d.women[i]).toFixed(1));
+      return {
+        labels: d.labels,
+        datasets: [
+          {
+            label: 'Uomini',
+            data: d.men,
+            backgroundColor: 'rgba(55,138,221,0.82)',
+            borderRadius: 5,
+            yAxisID: 'y'
+          },
+          {
+            label: 'Donne',
+            data: d.women,
+            backgroundColor: 'rgba(212,83,126,0.82)',
+            borderRadius: 5,
+            yAxisID: 'y'
+          },
+          {
+            type: 'line',
+            label: 'Gap (U−D)',
+            data: gap,
+            borderColor: '#1D9E75',
+            backgroundColor: 'rgba(29,158,117,0.12)',
+            fill: false,
+            tension: 0.35,
+            pointRadius: 5,
+            pointBackgroundColor: '#1D9E75',
+            yAxisID: 'y2',
+            borderWidth: 2.5
+          }
+        ]
+      };
+    }
+
+    const chart = new Chart(document.getElementById('empChart').getContext('2d'), {
+      type: 'bar',
+      data: buildData('all'),
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                if (ctx.dataset.type === 'line') return `  Gap: ${ctx.parsed.y.toFixed(1)} pp`;
+                return `  ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 13 }, autoSkip: false }
+          },
+          y: {
+            min: 0, max: 100,
+            ticks: { font: { size: 12 }, callback: v => v + '%' },
+            grid: { color: 'rgba(0,0,0,0.06)' },
+            title: { display: true, text: 'Tasso di occupazione (%)', font: { size: 12 }, color: '#6b7280' }
+          },
+          y2: {
+            position: 'right',
+            min: 0, max: 60,
+            grid: { display: false },
+            ticks: { font: { size: 12 }, callback: v => v + ' pp', color: '#1D9E75' },
+            title: { display: true, text: 'Gap (pp)', color: '#1D9E75', font: { size: 12 } }
+          }
+        }
+      }
+    });
+
+    document.getElementById('edu-group').addEventListener('click', e => {
+      const pill = e.target.closest('.pill');
+      if (!pill) return;
+      document.querySelectorAll('#edu-group .pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const nd = buildData(pill.dataset.edu);
+      chart.data.labels = nd.labels;
+      chart.data.datasets.forEach((ds, i) => { ds.data = nd.datasets[i].data; });
+      chart.update();
+    });
+  </script>
+</body>
+</html>
