@@ -1,16 +1,26 @@
-# GitHub Pages
+# Tech & Policy Insight — Widget interattivi
 
-<img src="https://octodex.github.com/images/Professortocat_v2.png" align="right" height="200px" />
+Asset interattivi per la newsletter **Tech & Policy Insight** di ADL Consulting.
 
-Hey Cinosway!
+## Widget disponibili
 
-Mona here. I'm done preparing your exercise. Hope you enjoy! 💚
+- **`index.html`** — *Italia online: la fotografia di fine 2025.*
+  Snapshot dei consumi digitali italiani basato sull'Osservatorio AGCOM n. 1/2026 (maggio 2026): consumo dati per linea broadband, utenti unici online, tempo speso in rete pro capite, crescita del traffico dati. Interfaccia a card cliccabili con pannello dinamico.
 
-Remember, it's self-paced so feel free to take a break! ☕️
+## Come embeddare in WordPress
 
-[![](https://img.shields.io/badge/Go%20to%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/Cinosway/adlconsultingdata/issues/1)
+```html
+<iframe
+  src="https://USER.github.io/REPO/"
+  width="100%"
+  height="820"
+  style="border:0;"
+  title="Italia online — fine 2025">
+</iframe>
+```
 
----
+(Sostituire `USER` con il nome utente GitHub e `REPO` con il nome del repository.)
 
-&copy; 2025 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
+## Licenza
 
+© 2026 ADL Consulting. Tutti i diritti riservati. Dati: AGCOM.
