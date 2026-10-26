@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Culle vuote, carrelli nuovi</title>
+<meta name="description" content="Natalità, famiglie e tecnologia: cosa cambia per la Distribuzione Moderna. Documento di lavoro, bozza.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --color-fg:#1d2433; --color-fg-muted:#5c6577; --color-bg:#f7f6f3; --color-panel:#ffffff; --color-border-line:#e1e4ea;
+  --color-ok:#2e7d4f; --color-warn:#9a6a00; --color-bad:#c0392b;
+  --cds-chart-muted:#b6bdca; --cds-chart-grid:#eceef2; --cds-chart-axis:#9aa3b2; --cds-chart-reference:#9aa3b2; --cds-chart-status-critical:#c0392b;
+  --cds-surface-popover:#ffffff; --cds-border:#dde1e8; --cds-shadow-popover:0 6px 20px rgba(20,30,50,.12); --cds-text-secondary:#5c6577;
+  --cds-font-size-caption:12.5px; --cds-font-size-body:15px; --cds-font-size-heading:17px; --cds-font-size-title:24px; --cds-font-weight-medium:600;
+  --cds-gap-xs:4px; --cds-gap-sm:8px; --cds-gap-md:16px; --cds-gap-lg:24px; --cds-gap-xl:44px;
+  --cds-pad-xs:4px; --cds-pad-sm:8px; --cds-pad-md:14px; --cds-pad-lg:22px; --cds-pad-xl:32px;
+  --cds-radius:10px; --cds-dur-slow:300ms; --cds-ease-out:cubic-bezier(.2,.8,.2,1);
+  --font-anthropic-sans:'IBM Plex Sans','Helvetica Neue',Arial,sans-serif; --font-anthropic-serif:'Source Serif 4',Georgia,serif;
+  --s0:#1C2B4A; --s1:#6F86AD; --s2:#C9A66B; --s3:#D9532B; --s4:#8E5A9B; --s5:#3A8F7B; --s6:#B04A6F; --s7:#7A7F8C;
+  --band:#1C2B4A; --band-fg:#ffffff; --band-muted:#c8d1e3;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --color-fg:#e8ebf1; --color-fg-muted:#a3abba; --color-bg:#12161f; --color-panel:#1a2030; --color-border-line:#2c3446;
+    --cds-chart-muted:#5d6678; --cds-chart-grid:#262d3c; --cds-chart-axis:#566074; --cds-chart-reference:#6b7487;
+    --cds-surface-popover:#222a3b; --cds-border:#343d50; --cds-text-secondary:#a3abba; --cds-shadow-popover:0 6px 20px rgba(0,0,0,.4);
+    --s0:#9DB4E0; --s1:#7C93BC; --s2:#D4B37A; --s3:#F07A52; --s4:#B88AC4; --s5:#5DB39C; --s6:#D27396; --s7:#9aa0ad;
+    --band:#0c1220; color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-anthropic-sans);font-size:var(--cds-font-size-body);line-height:1.5}
+.site-band{background:var(--band);color:var(--band-fg)}
+.site-band .in{max-width:1180px;margin-inline:auto;padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between;align-items:center;font-size:13px}
+.site-band .draft{border:1px solid #f0b9a6;color:#f0b9a6;padding:2px 8px;border-radius:999px;font-size:12px;letter-spacing:.04em}
+.site-band a{color:var(--band-fg)}
+#dash-root{--dash-gutter:max(16px,env(safe-area-inset-left,0px));padding-block:32px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.dash-skeleton{color:transparent!important;background:linear-gradient(90deg,var(--color-border-line),transparent,var(--color-border-line));background-size:200% 100%;border-radius:6px}
+.site-foot{max-width:1180px;margin:0 auto;padding:24px max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px));color:var(--color-fg-muted);font-size:13px;border-top:1px solid var(--color-border-line)}
+:focus-visible{outline:2px solid var(--color-fg);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="data.js"></script>
+<script src="dash-shim.js"></script>
+</head>
+<body>
+<div class="site-band"><div class="in"><span>Culle vuote, carrelli nuovi · natalità, famiglie e Distribuzione Moderna</span><span><a href="report.pdf">Scarica il report in PDF</a> &nbsp;<span class="draft">Bozza di lavoro · non ufficiale</span></span></div></div>
+<div id="dash-root">
+<style>
+#dash-root .nt{max-width:1180px;margin-inline:auto;display:grid;gap:var(--cds-gap-xl);font-family:var(--font-anthropic-sans)}
+.nt-head{display:grid;gap:var(--cds-gap-sm)}
+.nt-eyebrow{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);letter-spacing:.05em;text-transform:uppercase;margin:0}
+.nt-title{font-family:var(--font-anthropic-serif);font-weight:400;font-size:calc(var(--cds-font-size-title) * 1.6);line-height:1.08;margin:0;text-wrap:balance}
+.nt-lede{font-size:var(--cds-font-size-body);max-width:72ch;margin:0;line-height:1.6}
+.nt-nav{display:flex;flex-wrap:wrap;gap:var(--cds-gap-xs)}
+.nt-nav button{font:inherit;font-size:var(--cds-font-size-caption);padding:var(--cds-pad-xs) var(--cds-pad-sm);border:1px solid var(--color-border-line);border-radius:999px;background:var(--color-panel);color:var(--color-fg);cursor:pointer}
+.nt-nav button:hover{border-color:var(--color-fg-muted)}
+.nt-nav button:focus-visible{outline:2px solid var(--color-fg);outline-offset:2px}
+.nt-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));gap:var(--cds-gap-md)}
+.nt-kpi{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);display:grid;gap:var(--cds-gap-xs);align-content:start}
+.nt-kpi-label{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.nt-kpi-value{font-family:var(--font-anthropic-serif);font-weight:400;font-size:calc(var(--cds-font-size-title) * 1.3);line-height:1.1;font-variant-numeric:tabular-nums}
+.nt-kpi-sub{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);line-height:1.45}
+.nt-section{display:grid;gap:var(--cds-gap-md);scroll-margin-top:var(--cds-gap-xl)}
+.nt-h2{font-size:var(--cds-font-size-title);font-weight:var(--cds-font-weight-medium);margin:0;text-wrap:balance}
+.nt-sec-lede{margin:0;max-width:72ch;line-height:1.6;color:var(--color-fg-muted)}
+.nt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,26rem),1fr));gap:var(--cds-gap-md)}
+.nt-card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);display:flex;flex-direction:column;gap:var(--cds-gap-sm);min-width:0}
+.nt-card.wide{grid-column:1/-1}
+.nt-h3{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0;text-wrap:balance}
+.nt-note{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin:0;line-height:1.45}
+.nt-chart{position:relative;min-height:240px}
+.nt-chart.h-quote{min-height:98px}
+.nt-chart.h-rip{min-height:170px}
+.nt-chart.h-paesi{min-height:386px}
+.nt-chart.h-reg{min-height:506px}
+.nt-legend{display:flex;flex-wrap:wrap;gap:var(--cds-gap-xs) var(--cds-gap-md);font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.nt-legend span{display:inline-flex;align-items:center;gap:6px}
+.nt-legend i{width:10px;height:10px;border-radius:2px;display:inline-block;flex:none}
+.nt-legend i.dot{border-radius:50%}
+.nt-legend i.ring{border-radius:50%;background:transparent;border:2px solid var(--cds-chart-muted);width:8px;height:8px}
+.nt-text{margin:0;line-height:1.6}
+.nt-cart{border-top:1px solid var(--color-border-line);padding-top:var(--cds-pad-sm);margin-top:auto;display:grid;gap:4px}
+.nt-label{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);letter-spacing:.05em;text-transform:uppercase}
+.nt .nt-num{font-variant-numeric:tabular-nums;font-weight:var(--cds-font-weight-medium);white-space:nowrap}
+.nt-svg{display:block;overflow:visible}
+.nt-svg text{font-family:var(--font-anthropic-sans)}
+.nt-tick{fill:var(--color-fg-muted);font-size:var(--cds-font-size-caption)}
+.nt-val{fill:var(--color-fg);font-size:var(--cds-font-size-caption);font-variant-numeric:tabular-nums}
+.nt-gridline{stroke:var(--cds-chart-grid);stroke-width:1}
+.nt-axisline{stroke:var(--cds-chart-axis);stroke-width:1}
+.nt-tip{position:absolute;pointer-events:none;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:var(--cds-pad-xs) var(--cds-pad-sm);font-size:var(--cds-font-size-caption);white-space:nowrap;z-index:2;display:grid;gap:2px}
+.nt-tip-h{color:var(--cds-text-secondary)}
+.nt-tip-row{display:flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums}
+.nt-tip-row i{width:8px;height:8px;border-radius:2px;flex:none}
+.nt-tip-row b{font-weight:var(--cds-font-weight-medium);margin-left:auto;padding-left:var(--cds-pad-sm)}
+.nt-fail{display:flex;align-items:center;justify-content:center;gap:6px;min-height:inherit;color:var(--color-fg-muted);font-size:var(--cds-font-size-caption)}
+.nt-fail::before{content:"";width:.375rem;height:.375rem;border-radius:50%;background:var(--color-bad)}
+.nt-table-wrap{overflow-x:auto}
+.nt-table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.nt-table th{text-align:left;font-weight:var(--cds-font-weight-medium);font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);padding:var(--cds-pad-xs) var(--cds-pad-sm);border-bottom:1px solid var(--color-border-line);vertical-align:bottom}
+.nt-table td{padding:var(--cds-pad-xs) var(--cds-pad-sm);border-bottom:1px solid var(--color-border-line)}
+.nt-table tr:last-child td{border-bottom:0}
+.nt-table .r{text-align:right}
+.nt-table.names td{font-size:var(--cds-font-size-caption);letter-spacing:.02em}
+.nt-mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:var(--cds-gap-md)}
+.nt-mini .nt-card{gap:var(--cds-gap-xs)}
+.nt-mini.nt-three{grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr))}
+.nt-pill{align-self:flex-start;font-size:var(--cds-font-size-caption);padding:2px var(--cds-pad-sm);border-radius:999px;border:1px solid var(--color-border-line);color:var(--color-fg-muted)}
+.nt-list{margin:0;padding-left:1.1em;display:grid;gap:var(--cds-gap-sm);line-height:1.6;max-width:80ch}
+.nt-list strong{font-weight:var(--cds-font-weight-medium)}
+.nt-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,10rem),1fr));gap:var(--cds-gap-md)}
+.nt-fact{display:grid;gap:2px;align-content:start}
+.nt-fact-v{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);line-height:1.1;font-variant-numeric:tabular-nums}
+.nt-fact-l{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);line-height:1.4}
+.nt-table a{color:inherit;text-underline-offset:2px}
+.nt-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr));gap:var(--cds-gap-md)}
+[data-dash-source-state=refreshing]{opacity:.5;transition:opacity var(--cds-dur-slow)}
+[data-dash-source-state=empty]{color:transparent}
+</style>
+
+<div class="nt">
+  <header class="nt-head">
+    <p class="nt-eyebrow">Tavole ISTAT Natalità 2025 · lettura per la grande distribuzione</p>
+    <h1 class="nt-title" id="top">Culle vuote, carrelli nuovi</h1>
+    <p class="nt-lede">Nel 2025 in Italia sono nati <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=nati_2025">—</span> bambini, <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=nati_var_2008">—</span> rispetto al 2008. Anche se da domani le nascite smettessero di calare, nel 2035 i bambini sotto i 15 anni sarebbero comunque in calo: <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=b2035_tenuta">—</span> rispetto a oggi. Per la GDO la domanda giusta non è quanto si spenderà, ma chi spenderà, in che formato e in quale canale.</p>
+    <nav class="nt-nav" aria-label="Sezioni">
+      <button type="button" data-go="executive">Evidenze per la GDO</button>
+      <button type="button" data-go="calo">Il calo</button>
+      <button type="button" data-go="trend">Trend</button>
+      <button type="button" data-go="proiezioni">Proiezioni</button>
+      <button type="button" data-go="contesto">Salari, lavoro, scelte</button>
+      <button type="button" data-go="spese">Spese per i figli</button>
+      <button type="button" data-go="tecnologia">Tecnologia e IA</button>
+      <button type="button" data-go="filiera">Filiera</button>
+      <button type="button" data-go="spunti">Spunti laterali</button>
+      <button type="button" data-go="proposte">Proposte</button>
+      <button type="button" data-go="metodo">Fonti e metodo</button>
+    </nav>
+  </header>
+
+  <div class="nt-kpis">
+    <div class="nt-kpi">
+      <span class="nt-kpi-label">Nati nel 2025</span>
+      <span class="nt-kpi-value dash-skeleton" data-source="fatti" data-field="testo" data-where="k=nati_2025">—</span>
+      <span class="nt-kpi-sub"><span class="dash-skeleton" data-source="fatti" data-field="testo" data-where="k=nati_var_2008">—</span> sul 2008 · <span class="dash-skeleton" data-source="fatti" data-field="testo" data-where="k=nati_var_anno">—</span> sul 2024</span>
+    </div>
+    <div class="nt-kpi">
+      <span class="nt-kpi-label">Figli per donna</span>
+      <span class="nt-kpi-value dash-skeleton" data-source="fatti" data-field="testo" data-where="k=tft_2025">—</span>
+      <span class="nt-kpi-sub">donne italiane: <span class="dash-skeleton" data-source="fatti" data-field="testo" data-where="k=tft_ita_2025">—</span></span>
+    </div>
+    <div class="nt-kpi">
+      <span class="nt-kpi-label">Nati fuori dal matrimonio</span>
+      <span class="nt-kpi-value dash-skeleton" data-source="fatti" data-field="testo" data-where="k=fm_2025">—</span>
+      <span class="nt-kpi-sub">nel 2008: <span class="dash-skeleton" data-source="fatti" data-field="testo" data-where="k=fm_2008">—</span></span>
+    </div>
+    <div class="nt-kpi">
+      <span class="nt-kpi-label">Con almeno un genitore straniero</span>
+      <span class="nt-kpi-value dash-skeleton" data-source="fatti" data-field="testo" data-where="k=str_2025">—</span>
+      <span class="nt-kpi-sub">nel 2008: <span class="dash-skeleton" data-source="fatti" data-field="testo" data-where="k=str_2008">—</span></span>
+    </div>
+    <div class="nt-kpi">
+      <span class="nt-kpi-label">Bambini 0-14 anni al 2035</span>
+      <span class="nt-kpi-value dash-skeleton" data-source="fatti" data-field="testo" data-where="k=b2035_inerziale">—</span>
+      <span class="nt-kpi-sub">rispetto al 2025, scenario di calo moderato</span>
+    </div>
+  </div>
+
+  <section class="nt-section" id="executive">
+    <h2 class="nt-h2">Le evidenze per la Distribuzione Moderna</h2>
+    <p class="nt-sec-lede">Il calo delle nascite non riguarda solo le categorie dell'infanzia. Cambia la clientela, i formati, i canali, il personale e la rete dei punti vendita, e una parte del cambiamento dei prossimi dieci anni è già scritta nelle nascite avvenute.</p>
+    <div class="nt-mini nt-three">
+      <article class="nt-card"><span class="nt-pill">Volumi</span><h3 class="nt-h3">Un calo limitato ma certo</h3><p class="nt-text">Al 2035, nello scenario moderato, la spesa legata ai figli perde tra <span class="nt-num dash-skeleton" data-source="exec_fatti" data-field="testo" data-where="k=spesa_min">—</span> e <span class="nt-num dash-skeleton" data-source="exec_fatti" data-field="testo" data-where="k=spesa_max">—</span> l'anno. Nelle categorie per la prima infanzia i volumi scendono: <span class="nt-num dash-skeleton" data-source="exec_fatti" data-field="testo" data-where="k=vol_02_2035">—</span>.</p></article>
+      <article class="nt-card"><span class="nt-pill">Mix</span><h3 class="nt-h3">Il valore si sposta verso i servizi</h3><p class="nt-text">Dal 2015 i servizi di custodia dei bambini costano <span class="nt-num dash-skeleton" data-source="exec_fatti" data-field="testo" data-where="k=custodia_2015">—</span>, gli articoli per bambini <span class="nt-num dash-skeleton" data-source="exec_fatti" data-field="testo" data-where="k=articoli_2015">—</span>. Il costo di un figlio esce dallo scaffale.</p></article>
+      <article class="nt-card"><span class="nt-pill">Clienti</span><h3 class="nt-h3">Cambia la famiglia di riferimento</h3><p class="nt-text">Il <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=str_2025">—</span> dei nati ha almeno un genitore straniero; le coppie con figli sono in calo: <span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=coppie_figli_2050">—</span> al 2050.</p></article>
+      <article class="nt-card"><span class="nt-pill">Prezzo</span><h3 class="nt-h3">Famiglie con figli sotto pressione</h3><p class="nt-text">Il <span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=limitato_cibo">—</span> delle famiglie ha ridotto quantità o qualità del cibo: prezzo, promozioni e marca del distributore restano decisivi.</p></article>
+      <article class="nt-card"><span class="nt-pill">Canali</span><h3 class="nt-h3">Tempo scarso, acquisti delegati</h3><p class="nt-text">Il <span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=ia_delega">—</span> degli italiani delegherebbe l'acquisto a un assistente di IA: la scelta si sposta fuori dal punto vendita.</p></article>
+      <article class="nt-card"><span class="nt-pill">Lavoro e rete</span><h3 class="nt-h3">Meno giovani, territori più vuoti</h3><p class="nt-text">Nati del 2025 rispetto al 2008: <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=nati_var_2008">—</span>. Si riduce il bacino di giovani lavoratori. Mezzogiorno, Sardegna e aree interne chiedono una rete ripensata.</p></article>
+    </div>
+  </section>
+
+  <section class="nt-section" id="calo">
+    <h2 class="nt-h2">Il calo</h2>
+    <p class="nt-sec-lede">Le nascite scendono ogni anno dal 2008. La fecondità delle donne straniere, che per anni ha tenuto su i numeri, cala anch'essa: da <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=tft_str_2008">—</span> a <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=tft_str_2025">—</span> figli per donna. L'immigrazione rallenta il calo, non lo inverte.</p>
+    <div class="nt-grid">
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-nati">Nati per anno</h3>
+        <p class="nt-note">Valori assoluti. Le tavole riportano il 2008, il 2013 e gli anni dal 2018 al 2025: gli anni mancanti restano vuoti. Il 2025 è una stima.</p>
+        <div class="nt-chart dash-skeleton" id="ch-nati" data-source="nati_indicatori"></div>
+      </article>
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-tft">Figli per donna, per cittadinanza della madre</h3>
+        <p class="nt-note">Tasso di fecondità totale. Il 2025 è una stima.</p>
+        <div class="nt-legend"><span><i style="background:var(--nt-c0)"></i>Italiane</span><span><i style="background:var(--nt-c1)"></i>Straniere</span><span><i style="background:var(--cds-chart-muted)"></i>Totale</span></div>
+        <div class="nt-chart dash-skeleton" id="ch-tft" data-source="nati_indicatori"></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="nt-section" id="trend">
+    <h2 class="nt-h2">Sette trend che cambiano i consumi</h2>
+    <p class="nt-sec-lede">Ogni scheda unisce un grafico delle tavole, una lettura sociologica e cosa cambia nel carrello.</p>
+    <div class="nt-grid">
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-figlio-unico">Il figlio unico diventa la norma</h3>
+        <p class="nt-note">Numero medio di figli per donna, per ordine di nascita, generazioni di donne nate dal 1947 al 1976.</p>
+        <div class="nt-legend"><span><i style="background:var(--nt-c0)"></i>Primo figlio</span><span><i style="background:var(--nt-c1)"></i>Secondo figlio</span><span><i style="background:var(--nt-c2)"></i>Terzo e oltre</span></div>
+        <div class="nt-chart dash-skeleton" id="ch-coorti" data-source="coorti_ordine"></div>
+        <p class="nt-text">I terzi figli e oltre scendono da <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=terzo_1947">—</span> a <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=terzo_1976">—</span> per donna. Calano anche i primi figli, da <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=primo_1947">—</span> a <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=primo_1976">—</span>: tra le donne nate nel 1976, circa il <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=senza_figli_1976">—</span> non ha figli.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">Ogni figlio è un primo figlio: niente vestiti e accessori passati dal fratello maggiore, quindi ogni acquisto è nuovo. In GDO però significa meno confezioni famiglia e scontrini più piccoli.</p></div>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-tardi">Si diventa genitori sempre più tardi</h3>
+        <p class="nt-note">Tassi di fecondità per età della madre, nati ogni 1.000 donne. Sotto: quota della fecondità per fascia d'età.</p>
+        <div class="nt-legend"><span><i style="background:var(--cds-chart-muted)"></i>1995</span><span><i style="background:var(--nt-c1)"></i>2010</span><span><i style="background:var(--nt-c0)"></i>2025</span></div>
+        <div class="nt-chart dash-skeleton" id="ch-eta" data-source="fecondita_eta"></div>
+        <div class="nt-legend"><span><i style="background:var(--nt-c2)"></i>Sotto i 25 anni</span><span><i style="background:var(--cds-chart-muted)"></i>Da 25 a 34</span><span><i style="background:var(--nt-c0)"></i>35 e oltre</span></div>
+        <div class="nt-chart h-quote dash-skeleton" id="ch-quote" data-source="quote_eta"></div>
+        <p class="nt-text">Dopo i 35 anni avviene il <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=q35_2025">—</span> della fecondità, contro il <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=q35_1995">—</span> del 1995. Dopo i 40 anni, il <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=q40_2025">—</span> (era il <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=q40_1995">—</span>). Sotto i 25 si passa dal <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=q25_1995">—</span> al <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=q25_2025">—</span>. Le madri italiane partoriscono in media a <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=eta_ita_2025">—</span> anni.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">Il genitore tipo ha tra 35 e 40 anni, un reddito più consolidato e poco tempo. Cerca prodotti per la salute, il biologico, piatti pronti, consegna a casa. Compra meno volumi ma spende di più per prodotto.</p></div>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-poli">Madri giovani e madri laureate: due calendari diversi</h3>
+        <p class="nt-note">Tassi di fecondità per età e titolo di studio della madre, nati ogni 1.000 donne, 2025 (stima).</p>
+        <div class="nt-legend"><span><i style="background:var(--nt-c2)"></i>Fino alla licenza media</span><span><i style="background:var(--nt-c1)"></i>Diploma</span><span><i style="background:var(--nt-c0)"></i>Laurea e oltre</span></div>
+        <div class="nt-chart dash-skeleton" id="ch-titolo" data-source="fecondita_titolo"></div>
+        <p class="nt-text">Chi ha al massimo la licenza media ha <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=tft_licenza">—</span> figli per donna, con il picco a <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=picco_licenza">—</span> anni. Le laureate ne hanno <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=tft_laurea">—</span>, con il picco a <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=picco_laurea">—</span> anni. Le diplomate si fermano a <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=tft_diploma">—</span>. Il confronto va letto con cautela perché i tre gruppi sono composti in modo diverso per età e cittadinanza, ma la direzione è chiara.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">La fascia media si svuota. È lo stesso schema che si vede negli scaffali: crescono insieme il discount e il premium, mentre si comprime chi sta nel mezzo.</p></div>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-famiglia">La famiglia cambia forma</h3>
+        <p class="nt-note">Nati fuori dal matrimonio, per 100 nati. Sotto: per ripartizione, 1995 e 2025.</p>
+        <div class="nt-chart dash-skeleton" id="ch-fm" data-source="nati_indicatori"></div>
+        <div class="nt-legend"><span><i class="ring"></i>1995</span><span><i class="dot" style="background:var(--nt-c0)"></i>2025</span></div>
+        <div class="nt-chart h-rip dash-skeleton" id="ch-fm-rip" data-source="fuori_matrimonio_ripartizioni"></div>
+        <p class="nt-text">I nati fuori dal matrimonio passano dal <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=fm_2008">—</span> del 2008 al <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=fm_2025">—</span> del 2025. Al Centro arrivano al <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=fm_centro">—</span>.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">Più famiglie ricomposte e figli che vivono tra due case. È la doppia dispensa: lo stesso bambino genera acquisti in due abitazioni, ciascuna con volumi ridotti, e cresce la domanda di formati piccoli.</p></div>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-cognome">Il doppio cognome</h3>
+        <p class="nt-note">Nati con il cognome di entrambi i genitori, per 100 nati, per tipo di coppia.</p>
+        <div class="nt-legend"><span><i style="background:var(--nt-c0)"></i>Tutte le coppie</span><span><i style="background:var(--nt-c1)"></i>Coppie italiane</span><span><i style="background:var(--nt-c2)"></i>Coppie straniere o miste, senza genitori iberici o latinoamericani</span></div>
+        <div class="nt-chart dash-skeleton" id="ch-cognome" data-source="doppio_cognome"></div>
+        <p class="nt-text">Il doppio cognome passa dal <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=cognome_2020">—</span> del 2020 al <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=cognome_2025">—</span> del 2025. È ancora un fenomeno piccolo, ma è un segnale netto di maggiore parità tra i genitori.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">A fare la spesa per i figli sono sempre più spesso anche i padri. La comunicazione costruita solo sulla mamma è un modello che ha fatto il suo tempo.</p></div>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-paesi">Un nato su cinque ha almeno un genitore straniero</h3>
+        <p class="nt-note">Nati con almeno un genitore straniero, primi 15 paesi di cittadinanza, 2025, per tipo di coppia.</p>
+        <div class="nt-legend"><span><i style="background:var(--nt-c0)"></i>Entrambi stranieri</span><span><i style="background:var(--nt-c1)"></i>Padre italiano, madre straniera</span><span><i style="background:var(--nt-c2)"></i>Padre straniero, madre italiana</span></div>
+        <div class="nt-chart h-paesi dash-skeleton" id="ch-paesi" data-source="paesi_genitori"></div>
+        <p class="nt-text">Il <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=str_2025">—</span> dei nati ha almeno un genitore straniero. Dopo Romania, Marocco e Albania vengono Bangladesh, Egitto, Pakistan, Nigeria e India: un peso crescente dell'Asia del Sud e dell'Africa.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">Halal, riso, spezie, legumi, farine e i prodotti di queste comunità non sono una nicchia: riguardano una famiglia con bambini piccoli su cinque.</p></div>
+      </article>
+
+      <article class="nt-card wide">
+        <h3 class="nt-h3" id="h-regioni">Il Sud non fa più figli del Nord</h3>
+        <p class="nt-note">Figli per donna per regione, 1995 e 2025 (stima), ordinate per valore 2025.</p>
+        <div class="nt-legend"><span><i class="ring"></i>1995</span><span><i class="dot" style="background:var(--nt-c0)"></i>2025, in crescita</span><span><i class="dot" style="background:var(--nt-c3)"></i>2025, in calo</span></div>
+        <div class="nt-chart h-reg dash-skeleton" id="ch-regioni" data-source="regioni_tft"></div>
+        <p class="nt-text">Il Sud passa da <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=sud_1995">—</span> a <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=sud_2025">—</span> figli per donna, ormai sui livelli del Nord. Il Nord-est sale da <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=nordest_1995">—</span> a <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=nordest_2025">—</span>, grazie alle madri straniere. La Sardegna è a <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=sardegna_2025">—</span>, uno dei valori più bassi d'Europa; la provincia di Bolzano, con il suo welfare, a <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=bolzano_2025">—</span>.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">La rete di vendita pensata sulle famiglie numerose del Sud non regge più. La Sardegna è un'anteprima di come sarà il resto del Paese tra quindici anni.</p></div>
+      </article>
+
+      <article class="nt-card wide">
+        <h3 class="nt-h3" id="h-nomi">Nei nomi, le aspirazioni delle famiglie</h3>
+        <p class="nt-note">I 15 nomi più frequenti tra i nati residenti nel 2025, e tra i nati stranieri residenti.</p>
+        <div class="nt-table-wrap">
+          <table class="nt-table names" id="t-nomi" data-source="nomi_top15" data-row-key="posizione">
+            <thead><tr>
+              <th data-field="posizione">Posizione</th>
+              <th data-field="maschile">Maschi</th>
+              <th class="r" data-field="nati_m">Nati</th>
+              <th data-field="femminile">Femmine</th>
+              <th class="r" data-field="nati_f">Nate</th>
+              <th data-field="maschile_str">Maschi, nati stranieri</th>
+              <th data-field="femminile_str">Femmine, nate straniere</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="nt-text">Leonardo, Edoardo, Ginevra, Vittoria, Beatrice, Ludovica: nomi aristocratici, rinascimentali, aspirazionali. Tra i figli di genitori stranieri compaiono Liam, Noah, Emily, Amelia: nomi globali, più vicini alla cultura pop internazionale che al Paese d'origine o all'Italia.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">Il figlio, sempre più raro, diventa un investimento simbolico, con molti adulti attorno a un solo bambino. Si spende meno in totale, ma molto di più per ciascun bambino.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="nt-section" id="proiezioni">
+    <h2 class="nt-h2">Proiezioni: buona parte del calo è già scritta</h2>
+    <p class="nt-sec-lede">I bambini dei prossimi dieci anni dipendono dalle nascite già avvenute. Anche con le nascite ferme ai livelli del 2025, nel 2035 i bambini sotto i 15 anni sarebbero comunque in calo: <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=b2035_tenuta">—</span>. Ed è lo scenario più ottimista, perché le donne tra 25 e 39 anni sono a loro volta generazioni poco numerose.</p>
+    <div class="nt-grid">
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-proiezioni">Bambini da 0 a 14 anni, 2025 = 100</h3>
+        <p class="nt-note">Somma dei nati degli ultimi 15 anni, senza migrazioni e mortalità: misura la tendenza, non la popolazione ufficiale.</p>
+        <div class="nt-legend" id="lg-proiezioni" data-source="proiezioni"></div>
+        <div class="nt-chart dash-skeleton" id="ch-proiezioni" data-source="proiezioni"></div>
+      </article>
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-impatto">Quanto pesa sulla GDO al 2035</h3>
+        <p class="nt-note">Differenza tra il 2025 e il 2035. Le unità di consumo usano la scala OCSE modificata; la spesa usa un'ipotesi di spesa aggiuntiva per figlio (vedi Metodo).</p>
+        <div class="nt-table-wrap">
+          <table class="nt-table" id="t-impatto" data-source="impatto_gdo" data-row-key="scenario">
+            <thead><tr>
+              <th data-field="scenario">Scenario</th>
+              <th class="r" data-field="var_0_14">Bambini 0-14</th>
+              <th class="r" data-field="bambini_in_meno">Bambini in meno</th>
+              <th class="r" data-field="quota_consumi">Domanda alimentare</th>
+              <th class="r" data-field="spesa_min_mld">Spesa persa, min</th>
+              <th class="r" data-field="spesa_max_mld">Spesa persa, max</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="nt-text">In volume l'effetto è contenuto. Il punto vero è che questa spesa non sparisce: il reddito delle famiglie resta e si sposta verso ristoranti e bar, viaggi, animali domestici, benessere e prodotti premium per adulti. Per la GDO il problema è che si spende in modo diverso e in altri canali.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="nt-section" id="contesto">
+    <h2 class="nt-h2">Salari, lavoro, scelte: il contesto che le tavole non mostrano</h2>
+    <p class="nt-sec-lede">Le tavole dicono quanti figli nascono, non perché. Salari fermi, lavoro delle donne, povertà delle famiglie con figli e nuovi modelli familiari spiegano gran parte del calo e cambiano la lettura per la GDO. Le cifre di questa sezione vengono da fonti pubbliche recenti, elencate nel Metodo.</p>
+    <div class="nt-grid">
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-motivi">Il desiderio c'è, mancano le condizioni</h3>
+        <p class="nt-note">Persone tra 18 e 49 anni che non intendono avere figli: quota per motivo, 2024. Istat, Rapporto annuale 2026.</p>
+        <div class="nt-chart short dash-skeleton" id="ch-motivi" data-source="contesto" style="min-height:120px"></div>
+        <p class="nt-text"><span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=rinuncia">—</span> di persone tra 18 e 49 anni hanno rinunciato a figli che desideravano. Chi intende avere un figlio scende dal <span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=intenzione_2003">—</span> del 2003 al <span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=intenzione_2024">—</span> del 2024. La cura dei genitori anziani frena più della cura dei figli già avuti.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">Il calo nasce più da vincoli che da una scelta culturale. Tutto ciò che abbassa il costo di un figlio, in denaro e in tempo, incontra una domanda vera.</p></div>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-salari">Salari: un recupero incompleto</h3>
+        <p class="nt-note">Perdita di potere d'acquisto dei salari secondo tre fonti, ciascuna con un anno di confronto diverso.</p>
+        <div class="nt-facts">
+          <div class="nt-fact"><span class="nt-fact-v dash-skeleton" data-source="contesto" data-field="testo" data-where="id=salari_vs2021">—</span><span class="nt-fact-l">salari reali a inizio 2025 rispetto al 2021, il calo più forte nell'OCSE</span></div>
+          <div class="nt-fact"><span class="nt-fact-v dash-skeleton" data-source="contesto" data-field="testo" data-where="id=salari_vs2019">—</span><span class="nt-fact-l">retribuzioni contrattuali per dipendente, marzo 2025 su gennaio 2019 (Istat)</span></div>
+          <div class="nt-fact"><span class="nt-fact-v dash-skeleton" data-source="contesto" data-field="testo" data-where="id=salari_vs2008">—</span><span class="nt-fact-l">salari reali rispetto al 2008 (ILO)</span></div>
+        </div>
+        <p class="nt-text">La generazione che oggi dovrebbe fare figli è entrata nel lavoro con salari fermi e due shock di prezzo. La famiglia media spende <span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=spesa_media">—</span> al mese, e il <span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=limitato_cibo">—</span> delle famiglie ha ridotto quantità o qualità del cibo.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">Prezzo, promozioni e marca del distributore pesano di più proprio nelle famiglie con figli, che hanno il bilancio più stretto.</p></div>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-alim">La spesa alimentare cresce con il numero dei figli</h3>
+        <p class="nt-note">Spesa alimentare media mensile per tipo di famiglia, 2025. Istat, Spese per consumi delle famiglie.</p>
+        <div class="nt-chart short dash-skeleton" id="ch-alim" data-source="contesto" style="min-height:96px"></div>
+        <p class="nt-text">Una coppia con tre o più figli spende in alimentari quasi il doppio di una giovane coppia senza figli. È questa la spesa che si riduce quando i figli diminuiscono, e insieme si riduce il cliente più fedele all'ipermercato.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">Ogni famiglia numerosa che non si forma toglie volumi soprattutto a fresco, latticini, pasta, biscotti e detergenza.</p></div>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-poverta">Con ogni figlio in più cresce il rischio di povertà</h3>
+        <p class="nt-note">Famiglie in povertà assoluta per tipo, 2025. Istat, La povertà in Italia.</p>
+        <div class="nt-chart short dash-skeleton" id="ch-poverta" data-source="contesto" style="min-height:168px"></div>
+        <p class="nt-text">I minori in povertà assoluta sono il <span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=pov_minori">—</span>. Il rischio cresce con ogni figlio in più ed è molto più alto nelle famiglie di soli stranieri, cioè proprio quelle con più figli.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">Il bambino di domani nasce più spesso in una famiglia con poco margine: i prodotti per l'infanzia a basso prezzo sono un mercato, non una nicchia sociale.</p></div>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-donne">Le donne lavorano di più, la maternità costa ancora</h3>
+        <p class="nt-note">Tasso di occupazione 15-64 anni e dimissioni dei genitori lavoratori, 2025.</p>
+        <div class="nt-facts">
+          <div class="nt-fact"><span class="nt-fact-v dash-skeleton" data-source="contesto" data-field="testo" data-where="id=occ_donne">—</span><span class="nt-fact-l">donne occupate, contro il <span class="dash-skeleton" data-source="contesto" data-field="testo" data-where="id=occ_uomini">—</span> degli uomini (Eurostat)</span></div>
+          <div class="nt-fact"><span class="nt-fact-v dash-skeleton" data-source="contesto" data-field="testo" data-where="id=occ_madri">—</span><span class="nt-fact-l">madri occupate con figli in età prescolare (Save the Children)</span></div>
+          <div class="nt-fact"><span class="nt-fact-v dash-skeleton" data-source="contesto" data-field="testo" data-where="id=dimissioni">—</span><span class="nt-fact-l">dimissioni di genitori convalidate; il <span class="dash-skeleton" data-source="contesto" data-field="testo" data-where="id=dimissioni_madri">—</span> sono madri (Ispettorato del lavoro)</span></div>
+        </div>
+        <p class="nt-text">Il modello della madre a casa è superato nei desideri e nei titoli di studio, ma non ancora nei servizi: la maternità resta il momento in cui molte donne escono dal lavoro. Il figlio arriva dopo, quando il lavoro è stabile, e spesso resta uno solo.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">Meno cucina da zero, più piatti pronti, ritiro in negozio, consegna, orari lunghi. La decisione di spesa è sempre più condivisa nella coppia.</p></div>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-famiglie">Famiglie sempre più piccole</h3>
+        <p class="nt-note">Famiglie di una sola persona sul totale. Il 2050 è una previsione Istat.</p>
+        <div class="nt-chart short dash-skeleton" id="ch-famiglie" data-source="contesto" style="min-height:96px"></div>
+        <p class="nt-text">Le coppie con figli sono il <span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=coppie_figli_2025">—</span> delle famiglie e al 2050 saranno in calo: <span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=coppie_figli_2050">—</span>. Nello scenario mediano Istat le coppie senza figli le superano nel <span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=sorpasso">—</span>.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">La famiglia di riferimento per assortimento e formati non è più la coppia con figli: porzioni singole, prossimità e consegna diventano il caso normale.</p></div>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-pma">Maternità tardiva e procreazione assistita</h3>
+        <p class="nt-note">Età delle madri al primo figlio (Eurostat, 2024) e nati da PMA (Ministero della Salute, dati 2023).</p>
+        <div class="nt-facts">
+          <div class="nt-fact"><span class="nt-fact-v dash-skeleton" data-source="contesto" data-field="testo" data-where="id=eta_primo_ita">—</span><span class="nt-fact-l">anni al primo figlio in Italia, la più alta della UE (media UE <span class="dash-skeleton" data-source="contesto" data-field="testo" data-where="id=eta_primo_ue">—</span>)</span></div>
+          <div class="nt-fact"><span class="nt-fact-v dash-skeleton" data-source="contesto" data-field="testo" data-where="id=pma_quota">—</span><span class="nt-fact-l">dei nati da procreazione medicalmente assistita, cioè <span class="dash-skeleton" data-source="contesto" data-field="testo" data-where="id=pma_nati">—</span> bambini</span></div>
+        </div>
+        <p class="nt-text">Rinviare il primo figlio rende più probabile ricorrere alla medicina per averlo. Il percorso verso il figlio, prima ancora della nascita, diventa una fase di consumo a sé.</p>
+        <div class="nt-cart"><span class="nt-label">Nel carrello</span><p class="nt-text">Salute prima del concepimento, integratori, test, nutrizione per la fertilità: spazio per il reparto parafarmacia e per la marca del distributore nel benessere.</p></div>
+      </article>
+
+      <article class="nt-card wide">
+        <h3 class="nt-h3" id="h-rilettura">Cosa cambia nella lettura per la GDO</h3>
+        <ul class="nt-list">
+          <li><strong>Il calo dipende soprattutto da vincoli economici.</strong> Su questo la GDO può agire: un paniere infanzia a prezzo bloccato, marca del distributore di qualità per bambini, buoni spesa nel welfare aziendale delle imprese partner.</li>
+          <li><strong>Le famiglie con figli sono sotto doppia pressione.</strong> Spendono di più in alimentari e sono più esposte alla povertà, quindi premiano discount e promozioni, ma il loro numero cala. La polarizzazione tra discount e premium si rafforza.</li>
+          <li><strong>La madre che lavora cambia il carrello.</strong> Il tempo diventa la risorsa più scarsa: servizi, prodotti pronti e canali rapidi contano quanto il prezzo.</li>
+          <li><strong>La generazione sandwich.</strong> Chi cura insieme figli e genitori anziani ha bisogno di servizi per tre generazioni, per esempio la spesa consegnata ai genitori e pagata dai figli.</li>
+          <li><strong>La salute riproduttiva diventa un'area di consumo.</strong> Maternità tardiva e procreazione assistita aprono un mercato della salute prima della nascita.</li>
+          <li><strong>La famiglia di una persona diventa il cliente tipo.</strong> Con le famiglie unipersonali verso il <span class="nt-num dash-skeleton" data-source="contesto" data-field="testo" data-where="id=unipers_2050">—</span>, porzioni, prossimità e consegna smettono di essere servizi accessori.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="nt-section" id="spese">
+    <h2 class="nt-h2">Le spese legate ai figli: prezzi e fasce d'età</h2>
+    <p class="nt-sec-lede">Gli indici ISTAT dei prezzi al consumo separano alcune voci legate ai figli. Dal 2015 al 2025 i beni per bambini sono rimasti fermi o sono scesi, mentre i servizi sono cresciuti più dell'inflazione generale.</p>
+    <div class="nt-grid">
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-prezzi">Prezzi delle voci legate ai figli, 2015 = 100</h3>
+        <p class="nt-note">Indice NIC, medie annue 2015-2025. ISTAT, banca dati IstatData.</p>
+        <div class="nt-legend"><span><i style="background:var(--nt-c3)"></i>Custodia dei bambini</span><span><i style="background:var(--nt-c0)"></i>Alimenti per bambini</span><span><i style="background:var(--cds-chart-muted)"></i>Indice generale</span><span><i style="background:var(--nt-c1)"></i>Indumenti per neonati</span><span><i style="background:var(--nt-c2)"></i>Giocattoli</span><span><i style="background:var(--nt-c4)"></i>Articoli per bambini</span></div>
+        <div class="nt-chart dash-skeleton" id="ch-prezzi" data-source="prezzi_infanzia"></div>
+      </article>
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-prezzi-t">Variazione dei prezzi</h3>
+        <p class="nt-note">Variazione media annua 2025 e variazione cumulata dal 2015.</p>
+        <div class="nt-table-wrap">
+          <table class="nt-table" id="t-prezzi" data-source="prezzi_sintesi" data-row-key="voce">
+            <thead><tr><th data-field="voce">Voce</th><th class="r" data-field="var_2025">2025</th><th class="r" data-field="var_dal_2015">Dal 2015</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="nt-cart"><span class="nt-label">Per la GDO</span><p class="nt-text">La quota di bilancio destinata ai figli cresce soprattutto in servizi che la GDO non vende. Sui beni la pressione è al ribasso: il margine si difende con servizi, qualità e fidelizzazione dei genitori, non con i volumi.</p></div>
+      </article>
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-ciclo">La spesa lungo il ciclo di vita</h3>
+        <p class="nt-note">Spesa media mensile per tipologia familiare ed età della persona di riferimento, 2025. ISTAT, Spese per consumi delle famiglie.</p>
+        <div class="nt-chart dash-skeleton" id="ch-ciclo" data-source="spese_tipologia" style="min-height:264px"></div>
+        <p class="nt-text">Le famiglie piccole spendono di più per persona perché perdono le economie di scala. L'unico calo significativo della spesa nel 2025 riguarda le coppie con due figli.</p>
+      </article>
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-categorie">Volumi e valori per categoria al 2035</h3>
+        <p class="nt-note">Indice 2025 = 100. Ogni categoria segue i bambini della sua fascia d'età; il valore nominale prolunga il ritmo dei prezzi 2015-2025 della voce. Scenario moderato, con intervallo da calo come 2018-25 a nascite ferme.</p>
+        <div class="nt-table-wrap">
+          <table class="nt-table" id="t-categorie" data-source="proiezione_categorie" data-row-key="categoria">
+            <thead><tr><th data-field="categoria">Categoria</th><th data-field="eta">Età</th><th class="r" data-field="vol_2030">Volume 2030</th><th class="r" data-field="vol_2035">Volume 2035</th><th class="r" data-field="vol_2035_min">Minimo</th><th class="r" data-field="vol_2035_max">Massimo</th><th class="r" data-field="prezzo_annuo">Prezzi l'anno</th><th class="r" data-field="valore_2035">Valore 2035</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="nt-note">Non è una previsione di mercato: mancano dati di vendita e pesi di spesa per singola voce.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="nt-section" id="tecnologia">
+    <h2 class="nt-h2">Tecnologia e IA: come cambia il modo di comprare</h2>
+    <p class="nt-sec-lede">Mentre i bambini diminuiscono, cambia anche il modo in cui si fa la spesa. Gli assistenti di intelligenza artificiale entrano nella scelta dei prodotti, la spesa online cresce lentamente e la GDO sperimenta l'IA ma la usa ancora poco su larga scala. Le indagini misurano cose diverse e non sono direttamente confrontabili.</p>
+    <div class="nt-grid">
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-ia-consumatori">Gli italiani e l'IA negli acquisti</h3>
+        <p class="nt-note">Quota di italiani per tipo di uso, indagini 2026 (Adyen e Censuswide, SWG per Trustpilot, Netcomm e Comscore).</p>
+        <div class="nt-chart short dash-skeleton" id="ch-ia" data-source="contesto" style="min-height:144px"></div>
+        <p class="nt-text">Quasi uno su due ha già chiesto consiglio all'IA su un prodotto, e una quota simile delegherebbe l'intero acquisto una volta fissati i criteri. Tra i giovani della Gen Z l'uso degli assistenti è molto più alto della media.</p>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-online">La spesa online cresce, ma resta piccola</h3>
+        <p class="nt-note">eCommerce in Italia, 2026. Osservatorio eCommerce B2c Netcomm del Politecnico di Milano e NielsenIQ.</p>
+        <div class="nt-facts">
+          <div class="nt-fact"><span class="nt-fact-v dash-skeleton" data-source="contesto" data-field="testo" data-where="id=ecom_food">—</span><span class="nt-fact-l">Food &amp; Grocery online, <span class="dash-skeleton" data-source="contesto" data-field="testo" data-where="id=ecom_food_crescita">—</span> sul 2025</span></div>
+          <div class="nt-fact"><span class="nt-fact-v dash-skeleton" data-source="contesto" data-field="testo" data-where="id=ecom_spesa_quota">—</span><span class="nt-fact-l">dell'alimentare online è spesa da supermercato; il <span class="dash-skeleton" data-source="contesto" data-field="testo" data-where="id=ecom_delivery_quota">—</span> è food delivery</span></div>
+          <div class="nt-fact"><span class="nt-fact-v dash-skeleton" data-source="contesto" data-field="testo" data-where="id=ecom_penetrazione">—</span><span class="nt-fact-l">quota dell'online sugli acquisti di prodotti, tutte le categorie</span></div>
+          <div class="nt-fact"><span class="nt-fact-v dash-skeleton" data-source="contesto" data-field="testo" data-where="id=niq_ecom">—</span><span class="nt-fact-l">crescita a valore dell'eCommerce nel largo consumo (NielsenIQ)</span></div>
+        </div>
+        <p class="nt-text">La spesa alimentare resta in gran parte fisica, mentre il pasto pronto consegnato a casa pesa quasi metà dell'alimentare online. È un altro segnale di famiglie piccole e con poco tempo.</p>
+      </article>
+
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-ia-gdo">La GDO sperimenta l'IA, poche imprese la usano su larga scala</h3>
+        <p class="nt-note">Adozione dell'IA tra retailer e aziende della GDO in Italia, indagini 2025 e 2026.</p>
+        <div class="nt-chart short dash-skeleton" id="ch-ia-gdo" data-source="contesto" style="min-height:120px"></div>
+        <p class="nt-text">Due aziende della GDO su tre sperimentano l'IA, ma solo una su settanta l'ha portata su larga scala. Il freno, secondo le indagini, è organizzativo più che tecnologico.</p>
+      </article>
+
+      <article class="nt-card wide">
+        <h3 class="nt-h3" id="h-tech-demo">Demografia e tecnologia insieme</h3>
+        <ul class="nt-list">
+          <li><strong>Lo scaffale diventa una richiesta all'assistente.</strong> Se l'acquisto viene delegato all'IA, la marca si gioca nei criteri dell'agente (prezzo, recensioni, ingredienti, disponibilità) più che nell'esposizione in negozio. Schede prodotto complete e pubblicità nei siti dei retailer diventano decisive.</li>
+          <li><strong>Riordino automatico per chi non ha tempo.</strong> Genitori sopra i 35 anni e famiglie di una persona sono il pubblico naturale per abbonamenti e liste ricorrenti: pannolini, latte, detergenza, cibo per animali.</li>
+          <li><strong>Pochi giovani, ma nativi dell'IA.</strong> La Gen Z è una generazione poco numerosa che compra già con gli assistenti: il cliente giovane di domani sarà raro e mediato da un algoritmo.</li>
+          <li><strong>Prevedere una domanda che si restringe.</strong> Con nascite in calo e territori che si svuotano, l'IA sulla domanda serve a ridurre sprechi e scaffali vuoti nelle categorie infanzia e nei negozi delle aree interne.</li>
+          <li><strong>Meno giovani da assumere.</strong> Con il bacino di giovani lavoratori in calo, casse automatiche, riordino e turni pianificati con l'IA diventano una necessità, non un'opzione.</li>
+          <li><strong>Non lasciare indietro gli anziani.</strong> I clienti più anziani usano meno l'IA: il negozio fisico e assistito resta un servizio di prossimità da proteggere.</li>
+          <li><strong>Momenti di vita più rari e più preziosi.</strong> Con meno nascite, riconoscere in tempo i cambi di vita di un cliente vale di più, ma tocca dati sensibili da trattare con molta cura.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="nt-section" id="filiera">
+    <h2 class="nt-h2">L'impatto lungo la filiera</h2>
+    <p class="nt-sec-lede">Oltre i prodotti per l'infanzia: dove il calo delle nascite si sente a monte e a valle dello scaffale.</p>
+    <div class="nt-mini">
+      <article class="nt-card"><span class="nt-pill">Volume</span><h3 class="nt-h3">Latte e derivati</h3><p class="nt-text">I bambini sono i maggiori consumatori di latte fresco e yogurt. Meno bambini vuol dire più spazio a formaggi, prodotti proteici e fermentati per adulti, e più pressione sui prezzi alla stalla.</p></article>
+      <article class="nt-card"><span class="nt-pill">Mix</span><h3 class="nt-h3">Colazione e merende</h3><p class="nt-text">La merendina vive sul calendario scolastico. Le aziende dovranno passare allo snack per adulti: porzioni controllate, proteine, prodotti nostalgia per chi era bambino negli anni Novanta.</p></article>
+      <article class="nt-card"><span class="nt-pill">Formato</span><h3 class="nt-h3">Formati e confezioni</h3><p class="nt-text">Dalla confezione famiglia alla monoporzione. Aumentano gli articoli in assortimento e il costo al chilo, cresce il packaging: un conflitto diretto con gli obiettivi ambientali.</p></article>
+      <article class="nt-card"><span class="nt-pill">Canale</span><h3 class="nt-h3">Tipi di negozio</h3><p class="nt-text">L'ipermercato vive della spesa grande del sabato della famiglia con figli. Il suo declino è già in corso e la demografia lo rende strutturale. Crescono prossimità, discount e consegna rapida.</p></article>
+      <article class="nt-card"><span class="nt-pill">Stagionalità</span><h3 class="nt-h3">Il calendario promozionale</h3><p class="nt-text">Rientro a scuola, Halloween, Carnevale, uova di Pasqua, giocattoli a Natale: le stagionalità legate ai bambini si riducono. Le occasioni di regalo vanno ripensate per adulti e nonni.</p></article>
+      <article class="nt-card"><span class="nt-pill">Lavoro</span><h3 class="nt-h3">Chi lavorerà nei negozi</h3><p class="nt-text">La GDO è uno dei primi datori di lavoro per i giovani. I nati del 2008 compiono 18 anni nel 2026; quelli del 2025, <span class="nt-num dash-skeleton" data-source="fatti" data-field="testo" data-where="k=nati_var_2008">—</span> rispetto al 2008, li compiranno nel 2043. Automazione delle casse, fidelizzazione degli over 55 e lavoratori stranieri diventano scelte obbligate.</p></article>
+      <article class="nt-card"><span class="nt-pill">Territorio</span><h3 class="nt-h3">Aree interne</h3><p class="nt-text">Prima chiudono le scuole, poi i negozi. Nel Sud e in Sardegna la rete di vendita andrà razionalizzata, con il rischio di lasciare zone senza un punto vendita alimentare raggiungibile.</p></article>
+    </div>
+  </section>
+
+  <section class="nt-section" id="spunti">
+    <h2 class="nt-h2">Spunti laterali</h2>
+    <article class="nt-card">
+      <ul class="nt-list">
+        <li><strong>Meno nascite, meno occasioni per conquistare clienti.</strong> La nascita di un figlio è il momento in cui una famiglia cambia supermercato, marca e abitudini. Con meno nascite il mercato si fa più statico, rubare quote è più difficile e la competizione scivola sul prezzo.</li>
+        <li><strong>L'imprinting di marca si restringe.</strong> Le preferenze di marca si formano da bambini. Con meno bambini, chi non è già nella memoria degli adulti di domani dovrà costruirla da zero, con costi più alti.</li>
+        <li><strong>Gli animali domestici come sostituti dei figli.</strong> La cura degli animali è tra le categorie della GDO che crescono di più. Lo stesso modo di pensare (premium, salute, solo il meglio) si sposta dal bambino al cane.</li>
+        <li><strong>I nonni come primo canale di spesa.</strong> Le generazioni del baby boom sono molto più numerose dei nipoti di oggi. Regali e spesa fatta dai nonni valgono più di quanto si pensi.</li>
+        <li><strong>I prodotti per adulti più anziani sono i nuovi prodotti per l'infanzia.</strong> Porzioni piccole, cibi facili da masticare, etichette leggibili, consegna a casa, alimenti per la salute. Le competenze su sicurezza e nutrizione sviluppate per i bambini si possono riconvertire verso la terza età.</li>
+        <li><strong>Uno scaffale multiculturale per i bambini.</strong> Una fetta crescente dei bambini di domani è figlia di famiglie marocchine, bengalesi o nigeriane che chiamano i figli Liam ed Emily. C'è spazio per prodotti per l'infanzia che uniscano halal, gusto globale e tradizione italiana, e che oggi nessuno presidia.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="nt-section" id="proposte">
+    <h2 class="nt-h2">Proposte per il confronto istituzionale e narrative di posizionamento</h2>
+    <p class="nt-sec-lede">Possibili linee di advocacy e messaggi per il settore. Sono proposte di lavoro da validare con le imprese e le rappresentanze del settore, dopo aver verificato il quadro normativo vigente e i costi per la finanza pubblica.</p>
+    <div class="nt-grid">
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-policy">Proposte di policy</h3>
+        <ul class="nt-list">
+          <li><strong>Potere d'acquisto delle famiglie con figli.</strong> Stabilizzare un'aliquota IVA agevolata sui beni essenziali per la prima infanzia, verificando regime vigente ed effettivo trasferimento sui prezzi.</li>
+          <li><strong>Welfare aziendale spendibile nella rete.</strong> Rendere strutturale la soglia esente più alta per i lavoratori con figli e favorire buoni spesa utilizzabili nei punti vendita.</li>
+          <li><strong>Conciliazione nel commercio.</strong> Incentivi per nidi aziendali e interaziendali nei poli commerciali e per il rientro al lavoro delle madri.</li>
+          <li><strong>Presidio dei territori.</strong> Misure per i negozi di prossimità multiservizio nelle aree che si spopolano.</li>
+          <li><strong>Lavoro e competenze.</strong> Formazione su IA e automazione; canali di ingresso regolare per i lavoratori stranieri nel settore.</li>
+          <li><strong>Regole per l'IA negli acquisti.</strong> Applicazione proporzionata delle norme europee e parità di condizioni tra piattaforme e retailer negli acquisti delegati.</li>
+          <li><strong>Dati pubblici migliori.</strong> Chiedere a ISTAT i pesi di spesa delle voci legate ai figli e la spesa per età dei figli.</li>
+        </ul>
+      </article>
+      <article class="nt-card">
+        <h3 class="nt-h3" id="h-narrative">Narrative di posizionamento</h3>
+        <ul class="nt-list">
+          <li><strong>Alleata del bilancio delle famiglie.</strong> La Distribuzione Moderna contiene i prezzi dei beni essenziali con marca del distributore e promozioni, dove le famiglie con figli sono più in difficoltà.</li>
+          <li><strong>Infrastruttura di prossimità.</strong> In un Paese che invecchia e si svuota, il punto vendita è un presidio di servizi oltre che di spesa.</li>
+          <li><strong>Datore di lavoro inclusivo.</strong> Lavoro per giovani, donne e nuovi italiani, con la conciliazione come vantaggio competitivo.</li>
+          <li><strong>Innovazione che restituisce tempo.</strong> Tecnologia e IA al servizio di famiglie con poco tempo e di clienti anziani, senza escludere nessuno.</li>
+          <li><strong>Osservatorio sul Paese che cambia.</strong> Le imprese vedono ogni giorno come cambiano le famiglie: conoscenza da mettere a disposizione del dibattito pubblico.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="nt-section" id="metodo">
+    <h2 class="nt-h2">Fonti, metodo e limiti</h2>
+    <article class="nt-card">
+      <p class="nt-text">Tutti i dati demografici vengono dalle tavole ISTAT Natalità 2025 (Rilevazione delle nascite); i valori 2025 sono stime. Per le proiezioni ho ricostruito i nati degli anni mancanti nelle tavole (2009-2012 e 2014-2017) con una crescita geometrica costante tra gli anni disponibili, poi ho proiettato i nati dal 2026 con tre ritmi annui. I bambini da 0 a 14 anni sono la somma dei nati degli ultimi 15 anni: non tiene conto di migrazioni e mortalità, quindi sottostima i valori assoluti ma rappresenta bene la tendenza. Le cifre in euro dipendono dalle ipotesi qui sotto, che non vengono dalle tavole.</p>
+      <p class="nt-text">Le sezioni su salari, lavoro, scelte e tecnologia usano cifre raccolte a ottobre 2026 da fonti pubbliche. Dove l'originale non era consultabile, la cifra viene da un articolo che lo riprende, indicato tra parentesi nella fonte. Le indagini sull'IA hanno campioni e domande diversi: vanno lette come ordini di grandezza.</p>
+      <div class="nt-table-wrap">
+        <table class="nt-table" id="t-ipotesi" data-source="ipotesi_gdo" data-row-key="parametro">
+          <thead><tr>
+            <th data-field="descrizione">Ipotesi</th>
+            <th class="r" data-field="valore">Valore</th>
+            <th data-field="unita">Unità</th>
+            <th data-field="fonte">Fonte</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <h3 class="nt-h3" id="h-fonti">Fonti del contesto</h3>
+      <div class="nt-table-wrap">
+        <table class="nt-table" id="t-fonti" data-source="contesto" data-row-key="id">
+          <thead><tr>
+            <th data-field="tema">Tema</th>
+            <th data-field="indicatore">Indicatore</th>
+            <th class="r" data-field="testo">Valore</th>
+            <th data-field="anno">Anno</th>
+            <th data-field="fonte">Fonte</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <h3 class="nt-h3" id="h-fonti-usate">Fonti usate e come sono state lette</h3>
+      <p class="nt-note">«Letta direttamente»: file o banca dati originale. «Ripresa»: cifra da un articolo o da una sintesi che cita la fonte, da verificare sull'originale.</p>
+      <div class="nt-table-wrap">
+        <table class="nt-table" id="t-fonti-usate" data-source="fonti" data-row-key="id">
+          <thead><tr><th data-field="fonte">Fonte</th><th data-field="uso">Cosa usiamo</th><th data-field="anno">Anno</th><th data-field="lettura">Come è stata letta</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <h3 class="nt-h3" id="h-non-osserva">Cosa questo studio non osserva</h3>
+      <ul class="nt-list">
+        <li><strong>Dati di vendita delle imprese</strong> per categoria e canale: senza sell-out non misuriamo i volumi reali delle categorie infanzia in GDO.</li>
+        <li><strong>Pesi di spesa per singola voce</strong> legata ai figli: non possiamo stimare in euro il valore di ogni categoria.</li>
+        <li><strong>Spesa per età dei figli</strong>: abbiamo solo tipologie familiari, non la spesa per un figlio di 2 o di 12 anni.</li>
+        <li><strong>Pannolini e igiene della prima infanzia</strong>: voce centrale per la GDO, non pubblicata separatamente negli indici (scanner data ISTAT dal 2026).</li>
+        <li><strong>Popolazione per età con migrazioni</strong>: la proiezione usa solo i nati e sottostima i valori assoluti.</li>
+        <li><strong>Effetti delle politiche</strong> come Assegno unico, bonus e IVA sulla spesa delle famiglie con figli.</li>
+        <li><strong>Usato, marketplace e canali concorrenti</strong> (farmacie, negozi specializzati, online puro): le quote della GDO per le categorie infanzia non sono note.</li>
+        <li><strong>Trasferimenti dei nonni e ricchezza delle famiglie</strong>, e dove va la spesa «liberata» (ristorazione, viaggi, animali domestici).</li>
+        <li><strong>Differenze territoriali di consumo</strong> per categoria, decisive per la rete.</li>
+        <li><strong>Casa, fattori culturali e salute riproduttiva</strong>: pesano sulle scelte ma non sono misurati qui.</li>
+        <li><strong>Effetti reali dell'IA</strong> su prezzi e assortimento: le indagini misurano intenzioni, non comportamenti.</li>
+      </ul>
+    </article>
+  </section>
+</div>
+
+<script>
+dash.calc('quote_eta', {
+  title: 'Fecondità per fascia d\'età',
+  description: 'Quota della fecondità totale sotto i 25 anni, tra 25 e 34, dai 35 e dai 40, nel 1995, 2010 e 2025.',
+  inputs: ['fecondita_eta'],
+  fn: (fecondita_eta) => [['1995', 't1995'], ['2010', 't2010'], ['2025', 't2025']].map(([anno, col]) => {
+    const sum = (lo, hi) => fecondita_eta.filter(r => Number(r.eta) >= lo && Number(r.eta) <= hi).reduce((s, r) => s + Number(r[col]), 0);
+    const tot = sum(15, 49);
+    return {anno, tft: tot / 1000, meno_25: sum(15, 24) / tot, da_25_a_34: sum(25, 34) / tot, da_35: sum(35, 49) / tot, da_40: sum(40, 49) / tot};
+  })
+});
+
+dash.calc('tft_titolo', {
+  title: 'Figli per donna per titolo di studio',
+  description: 'Somma dei tassi per età di ciascun titolo di studio, e l\'età con il tasso più alto.',
+  inputs: ['fecondita_titolo'],
+  fn: (fecondita_titolo) => [['licenza_media', 'Fino a licenza media'], ['diploma', 'Diploma'], ['laurea', 'Laurea e oltre']].map(([col, titolo]) => {
+    const top = fecondita_titolo.reduce((a, r) => Number(r[col]) > Number(a[col]) ? r : a);
+    return {titolo, tft: fecondita_titolo.reduce((s, r) => s + Number(r[col]), 0) / 1000, picco_eta: Number(top.eta)};
+  })
+});
+
+dash.calc('proiezioni', {
+  title: 'Proiezione bambini 0-14 anni',
+  description: 'Nati ricostruiti per gli anni mancanti e proiettati al 2040 in tre scenari; bambini 0-14 come somma dei nati degli ultimi 15 anni.',
+  inputs: ['nati_indicatori', 'ipotesi_gdo'],
+  fn: (nati_indicatori, ipotesi_gdo) => {
+    const b = {};
+    nati_indicatori.forEach(r => { b[Number(r.anno)] = Number(r.nati); });
+    [[2008, 2013], [2013, 2018]].forEach(([a, z]) => {
+      const g = Math.pow(b[z] / b[a], 1 / (z - a));
+      for (let y = a + 1; y < z; y++) b[y] = b[a] * Math.pow(g, y - a);
+    });
+    const par = k => Number(ipotesi_gdo.find(r => r.parametro === k).valore);
+    const pct = v => (v < 0 ? '−' : '') + new Intl.NumberFormat('it-IT').format(Math.abs(v) * 100) + '% l\'anno';
+    const scenari = [['tenuta', 'Nascite ferme al 2025'], ['inerziale', 'Calo moderato'], ['trend', 'Calo come nel 2018-2025']];
+    const rows = [];
+    scenari.forEach(([codice, nome]) => {
+      const g = par('scenario_' + codice);
+      const bb = Object.assign({}, b);
+      for (let y = 2026; y <= 2040; y++) bb[y] = bb[y - 1] * (1 + g);
+      const under15 = y => { let s = 0; for (let t = y - 14; t <= y; t++) s += bb[t]; return s; };
+      const base = under15(2025);
+      const scenario = g === 0 ? nome : nome + ' (' + pct(g) + ')';
+      for (let y = 2025; y <= 2040; y++) rows.push({scenario, codice, anno: y, nati: Math.round(bb[y]), bambini_0_14: Math.round(under15(y)), indice: under15(y) / base});
+    });
+    return rows;
+  }
+});
+
+dash.calc('impatto_gdo', {
+  title: 'Impatto sulla GDO al 2035',
+  description: 'Bambini in meno tra 2025 e 2035, loro peso sulle unità di consumo e spesa persa con l\'ipotesi minima e massima di spesa per figlio.',
+  inputs: ['proiezioni', 'ipotesi_gdo'],
+  fn: (proiezioni, ipotesi_gdo) => {
+    const par = k => Number(ipotesi_gdo.find(r => r.parametro === k).valore);
+    const codici = [...new Set(proiezioni.map(r => r.codice))];
+    return codici.map(codice => {
+      const at = y => proiezioni.find(r => r.codice === codice && Number(r.anno) === y);
+      const base = at(2025), fine = at(2035);
+      const in_meno = base.bambini_0_14 - fine.bambini_0_14;
+      const ue = in_meno * par('peso_bambino_ocse');
+      return {scenario: base.scenario, var_0_14: fine.indice - 1, bambini_in_meno: in_meno, consumatori_equivalenti: Math.round(ue), quota_consumi: -ue / par('unita_consumo_italia'), spesa_min_mld: in_meno * par('spesa_figlio_min') / 1e9, spesa_max_mld: in_meno * par('spesa_figlio_max') / 1e9};
+    });
+  }
+});
+
+dash.calc('fatti', {
+  title: 'Cifre citate nel testo',
+  description: 'Le cifre dei riquadri e del testo, prese dalle tavole e dalle proiezioni e scritte in formato italiano.',
+  inputs: ['nati_indicatori', 'quote_eta', 'coorti_ordine', 'tft_titolo', 'regioni_tft', 'doppio_cognome', 'fuori_matrimonio_ripartizioni', 'proiezioni'],
+  fn: (nati_indicatori, quote_eta, coorti_ordine, tft_titolo, regioni_tft, doppio_cognome, fuori_matrimonio_ripartizioni, proiezioni) => {
+    const n = (v, d) => new Intl.NumberFormat('it-IT', {minimumFractionDigits: d, maximumFractionDigits: d}).format(v);
+    const sig = (v, d) => (v > 0 ? '+' : v < 0 ? '−' : '') + n(Math.abs(v) * 100, d) + '%';
+    const sh = v => n(v * 100, 1) + '%';
+    const anno = y => nati_indicatori.find(r => Number(r.anno) === y);
+    const a08 = anno(2008), a24 = anno(2024), a25 = anno(2025);
+    const q = a => quote_eta.find(r => r.anno === a);
+    const c = y => coorti_ordine.find(r => Number(r.coorte) === y);
+    const t = k => tft_titolo.find(r => r.titolo === k);
+    const g = k => regioni_tft.find(r => r.territorio === k);
+    const dc = y => doppio_cognome.find(r => Number(r.anno) === y);
+    const p35 = k => proiezioni.find(r => r.codice === k && Number(r.anno) === 2035);
+    return [
+      ['nati_2025', n(Number(a25.nati), 0)],
+      ['nati_var_2008', sig(a25.nati / a08.nati - 1, 0)],
+      ['nati_var_anno', sig(a25.nati / a24.nati - 1, 1)],
+      ['tft_2025', n(Number(a25.tft), 2)],
+      ['tft_ita_2025', n(Number(a25.tft_italiane), 2)],
+      ['tft_str_2008', n(Number(a08.tft_straniere), 2)],
+      ['tft_str_2025', n(Number(a25.tft_straniere), 2)],
+      ['fm_2008', n(Number(a08.pct_fuori_matrimonio), 1) + '%'],
+      ['fm_2025', n(Number(a25.pct_fuori_matrimonio), 1) + '%'],
+      ['fm_centro', n(Number(fuori_matrimonio_ripartizioni.find(r => r.ripartizione === 'Centro').pct_2025), 1) + '%'],
+      ['str_2008', n(Number(a08.pct_almeno_un_straniero), 1) + '%'],
+      ['str_2025', n(Number(a25.pct_almeno_un_straniero), 1) + '%'],
+      ['eta_ita_2025', n(Number(a25.eta_parto_italiane), 1)],
+      ['q35_1995', sh(q('1995').da_35)], ['q35_2025', sh(q('2025').da_35)],
+      ['q40_1995', sh(q('1995').da_40)], ['q40_2025', sh(q('2025').da_40)],
+      ['q25_1995', sh(q('1995').meno_25)], ['q25_2025', sh(q('2025').meno_25)],
+      ['terzo_1947', n(Number(c(1947).terzo_e_oltre), 2)], ['terzo_1976', n(Number(c(1976).terzo_e_oltre), 2)],
+      ['primo_1947', n(Number(c(1947).primo), 2)], ['primo_1976', n(Number(c(1976).primo), 2)],
+      ['senza_figli_1976', n((1 - Number(c(1976).primo)) * 100, 0) + '%'],
+      ['tft_licenza', n(t('Fino a licenza media').tft, 2)], ['picco_licenza', String(t('Fino a licenza media').picco_eta)],
+      ['tft_diploma', n(t('Diploma').tft, 2)],
+      ['tft_laurea', n(t('Laurea e oltre').tft, 2)], ['picco_laurea', String(t('Laurea e oltre').picco_eta)],
+      ['sud_1995', n(Number(g('Sud').tft_1995), 2)], ['sud_2025', n(Number(g('Sud').tft_2025), 2)],
+      ['nordest_1995', n(Number(g('Nord-est').tft_1995), 2)], ['nordest_2025', n(Number(g('Nord-est').tft_2025), 2)],
+      ['sardegna_2025', n(Number(g('Sardegna').tft_2025), 2)], ['bolzano_2025', n(Number(g('Bolzano/Bozen').tft_2025), 2)],
+      ['cognome_2020', n(Number(dc(2020).tutte_le_coppie), 1) + '%'], ['cognome_2025', n(Number(dc(2025).tutte_le_coppie), 1) + '%'],
+      ['b2035_tenuta', sig(p35('tenuta').indice - 1, 0)],
+      ['b2035_inerziale', sig(p35('inerziale').indice - 1, 0)],
+      ['b2035_trend', sig(p35('trend').indice - 1, 0)]
+    ].map(([k, testo]) => ({k, testo}));
+  }
+});
+
+dash.calc('prezzi_sintesi', {
+  title: 'Prezzi delle voci legate ai figli',
+  description: 'Variazione media annua 2025 e variazione cumulata dal 2015 per le voci NIC legate ai figli.',
+  inputs: ['prezzi_infanzia'],
+  fn: (prezzi_infanzia) => ['13301', '11121', '01192', '03123', '097402', '092122', '03213', '031217', '132912', '00'].map(code => {
+    const r = prezzi_infanzia.find(x => x.codice_ecoicop === code && Number(x.anno) === 2025);
+    return {voce: r.voce, var_2025: Number(r.var_media_annua) / 100, var_dal_2015: Number(r.indice_2015_100) / 100 - 1};
+  })
+});
+
+dash.calc('proiezione_categorie', {
+  title: 'Proiezione per categoria legata ai figli',
+  description: 'Volumi al 2030 e 2035 per categoria in base ai bambini della sua fascia d\'età; valore nominale con il ritmo dei prezzi 2015-2025.',
+  inputs: ['nati_indicatori', 'ipotesi_gdo', 'prezzi_infanzia'],
+  fn: (nati_indicatori, ipotesi_gdo, prezzi_infanzia) => {
+    const b = {};
+    nati_indicatori.forEach(r => { b[Number(r.anno)] = Number(r.nati); });
+    [[2008, 2013], [2013, 2018]].forEach(([a, z]) => {
+      const g = Math.pow(b[z] / b[a], 1 / (z - a));
+      for (let y = a + 1; y < z; y++) b[y] = b[a] * Math.pow(g, y - a);
+    });
+    const par = k => Number(ipotesi_gdo.find(r => r.parametro === k).valore);
+    const serie = {};
+    ['tenuta', 'inerziale', 'trend'].forEach(c => {
+      const bb = Object.assign({}, b);
+      for (let y = 2026; y <= 2040; y++) bb[y] = bb[y - 1] * (1 + par('scenario_' + c));
+      serie[c] = bb;
+    });
+    const pop = (bb, y, lo, hi) => { let s = 0; for (let a = lo; a <= hi; a++) s += bb[y - a]; return s; };
+    const cats = [['Alimenti per bambini', '01192', 0, 2], ['Indumenti per neonati', '03123', 0, 2], ['Articoli per bambini', '132912', 0, 2], ['Custodia dei bambini', '13301', 0, 5], ['Giocattoli', '092122', 0, 11], ['Calzature per bambini', '03213', 0, 13], ['Abbigliamento 3-13 anni', '031217', 3, 13], ['Mense scolastiche', '11121', 3, 13]];
+    return cats.map(([categoria, code, lo, hi]) => {
+      const idx = Number(prezzi_infanzia.find(x => x.codice_ecoicop === code && Number(x.anno) === 2025).indice_2015_100);
+      const cagr = Math.pow(idx / 100, 1 / 10) - 1;
+      const v = (c, y) => pop(serie[c], y, lo, hi) / pop(serie[c], 2025, lo, hi);
+      return {categoria, eta: lo + '-' + hi + ' anni', vol_2030: v('inerziale', 2030), vol_2035: v('inerziale', 2035), vol_2035_min: v('trend', 2035), vol_2035_max: v('tenuta', 2035), prezzo_annuo: cagr, valore_2035: v('inerziale', 2035) * Math.pow(1 + cagr, 10)};
+    });
+  }
+});
+
+dash.calc('exec_fatti', {
+  title: 'Cifre delle evidenze per la GDO',
+  description: 'Le cifre della sezione Evidenze, prese dall\'impatto al 2035, dalla proiezione per categoria e dai prezzi.',
+  inputs: ['impatto_gdo', 'proiezione_categorie', 'prezzi_sintesi'],
+  fn: (impatto_gdo, proiezione_categorie, prezzi_sintesi) => {
+    const n = (v, d) => new Intl.NumberFormat('it-IT', {minimumFractionDigits: d, maximumFractionDigits: d}).format(v);
+    const sig = (v, d) => (v > 0 ? '+' : v < 0 ? '−' : '') + n(Math.abs(v) * 100, d) + '%';
+    const mod = impatto_gdo[1];
+    const p = v => prezzi_sintesi.find(r => r.voce === v);
+    return [
+      ['spesa_min', n(mod.spesa_min_mld, 1) + ' mld €'],
+      ['spesa_max', n(mod.spesa_max_mld, 1) + ' mld €'],
+      ['vol_02_2035', sig(proiezione_categorie.find(r => r.categoria === 'Alimenti per bambini').vol_2035 - 1, 0)],
+      ['custodia_2015', sig(p('Servizi di custodia dei bambini').var_dal_2015, 1)],
+      ['articoli_2015', sig(p('Articoli per bambini').var_dal_2015, 1)]
+    ].map(([k, testo]) => ({k, testo}));
+  }
+});
+</script>
+
+<script>
+const C = dash.colors;
+const MUTED = 'var(--cds-chart-muted)';
+const root = document.querySelector('#dash-root .nt');
+root.style.setProperty('--nt-c0', C[0]);
+root.style.setProperty('--nt-c1', C[1]);
+root.style.setProperty('--nt-c2', C[2]);
+root.style.setProperty('--nt-c3', C[3]);
+root.style.setProperty('--nt-c4', C[4]);
+const nf = d => new Intl.NumberFormat('it-IT', {minimumFractionDigits: d, maximumFractionDigits: d});
+const f0 = nf(0), f1 = nf(1), f2 = nf(2);
+const num = v => Number(v);
+const signed = (v, d) => (v > 0 ? '+' : v < 0 ? '−' : '') + nf(d).format(Math.abs(v) * 100) + '%';
+const pctPt = d => v => nf(d).format(v) + '%';
+
+function statusOf(ids) {
+  const st = ids.map(id => dash.data(id).status);
+  if (st.every(s => s === 'ok')) return 'ok';
+  if (st.some(s => s === 'error' || s === 'declined' || s === 'missing' || s === 'connect')) return 'error';
+  return 'loading';
+}
+function prep(el, ids) {
+  const s = statusOf(ids);
+  el.innerHTML = '';
+  el.classList.toggle('dash-skeleton', s === 'loading');
+  if (s === 'error') {
+    const d = document.createElement('div');
+    d.className = 'nt-fail';
+    d.textContent = 'Dati non caricati';
+    el.appendChild(d);
+  }
+  return s === 'ok';
+}
+const rowsOf = id => dash.data(id).data || [];
+
+function makeSvg(el, H) {
+  const W = Math.max(260, Math.floor(el.clientWidth || 600));
+  const svg = d3.select(el).append('svg').attr('class', 'nt-svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+  return {svg, W};
+}
+function measure(svg, txt) {
+  const t = svg.append('text').attr('class', 'nt-tick').text(txt);
+  const w = t.node().getComputedTextLength();
+  t.remove();
+  return w;
+}
+function makeTip(el) {
+  const d = document.createElement('div');
+  d.className = 'nt-tip';
+  d.hidden = true;
+  el.appendChild(d);
+  return d;
+}
+function showTip(tip, el, head, lines, x, y) {
+  tip.replaceChildren();
+  const h = document.createElement('div');
+  h.className = 'nt-tip-h';
+  h.textContent = head;
+  tip.appendChild(h);
+  lines.forEach(l => {
+    const row = document.createElement('div');
+    row.className = 'nt-tip-row';
+    if (l.color && lines.length > 1) {
+      const i = document.createElement('i');
+      i.style.background = l.color;
+      row.appendChild(i);
+    }
+    const s = document.createElement('span');
+    s.textContent = l.label;
+    const b = document.createElement('b');
+    b.textContent = l.value;
+    row.append(s, b);
+    tip.appendChild(row);
+  });
+  tip.hidden = false;
+  const tw = tip.offsetWidth, th = tip.offsetHeight, ew = el.clientWidth;
+  let left = x + 14;
+  if (left + tw > ew) left = x - tw - 14;
+  left = Math.max(0, Math.min(left, ew - tw));
+  const top = Math.max(0, y - th - 8);
+  tip.style.left = left + 'px';
+  tip.style.top = top + 'px';
+}
+
+function lineChart(el, rows, o) {
+  const H = o.height || 240;
+  const {svg, W} = makeSvg(el, H);
+  const yMax = o.yMax != null ? o.yMax : d3.max(o.series, s => d3.max(rows, r => num(r[s.key])));
+  const y = d3.scaleLinear([o.yMin || 0, yMax], [H - 26, 10]).nice(o.yTicks || 5);
+  const yt = y.ticks(o.yTicks || 5);
+  const ml = d3.max(yt, t => measure(svg, o.yFmt(t))) + 10;
+  const mr = 16;
+  const x = d3.scaleLinear(d3.extent(rows, r => num(r[o.x])), [ml, W - mr]);
+  const g = svg.append('g');
+  g.selectAll('line.gl').data(yt).join('line').attr('class', 'nt-gridline').attr('x1', ml).attr('x2', W - mr).attr('y1', d => y(d)).attr('y2', d => y(d));
+  g.selectAll('text.yt').data(yt).join('text').attr('class', 'nt-tick').attr('x', ml - 8).attr('y', d => y(d)).attr('dy', '0.32em').attr('text-anchor', 'end').text(d => o.yFmt(d));
+  const fit = Math.max(2, Math.floor((W - ml - mr) / 52));
+  let xt = o.xTicks || x.ticks(Math.min(fit, o.xTickMax || 10)).filter(Number.isInteger);
+  if (xt.length > fit) xt = xt.filter((d, i) => i % Math.ceil(xt.length / fit) === 0);
+  g.selectAll('text.xt').data(xt).join('text').attr('class', 'nt-tick').attr('x', d => x(d)).attr('y', H - 6).attr('text-anchor', 'middle').text(d => o.xFmt ? o.xFmt(d) : String(d));
+  g.append('line').attr('class', 'nt-axisline').attr('x1', ml).attr('x2', W - mr).attr('y1', y(y.domain()[0])).attr('y2', y(y.domain()[0]));
+  if (o.ref != null) g.append('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y(o.ref)).attr('y2', y(o.ref)).style('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 3');
+  o.series.forEach(s => {
+    const line = d3.line().x(r => x(num(r[o.x]))).y(r => y(num(r[s.key])));
+    g.append('path').datum(rows).attr('fill', 'none').style('stroke', s.color).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('d', line);
+    if (o.points) g.selectAll(null).data(rows).join('circle').attr('cx', r => x(num(r[o.x]))).attr('cy', r => y(num(r[s.key]))).attr('r', 2.5).style('fill', s.color);
+  });
+  const rule = g.append('line').attr('y1', 10).attr('y2', H - 26).style('stroke', 'var(--cds-chart-axis)').attr('opacity', 0);
+  const dots = o.series.map(s => g.append('circle').attr('r', 4).style('fill', s.color).style('stroke', 'var(--color-panel)').attr('stroke-width', 2).attr('opacity', 0));
+  const tip = makeTip(el);
+  const tf = o.tipFmt || o.yFmt;
+  svg.append('rect').attr('x', ml).attr('y', 0).attr('width', Math.max(0, W - ml - mr)).attr('height', H).attr('fill', 'transparent')
+    .on('pointermove', ev => {
+      const [px] = d3.pointer(ev, svg.node());
+      const xv = x.invert(px);
+      const r = rows.reduce((a, b) => Math.abs(num(b[o.x]) - xv) < Math.abs(num(a[o.x]) - xv) ? b : a);
+      const cx = x(num(r[o.x]));
+      rule.attr('x1', cx).attr('x2', cx).attr('opacity', 1);
+      o.series.forEach((s, i) => dots[i].attr('cx', cx).attr('cy', y(num(r[s.key]))).attr('opacity', 1));
+      const k = el.clientWidth / W;
+      const top = d3.min(o.series, s => y(num(r[s.key])));
+      showTip(tip, el, o.tipHead ? o.tipHead(r) : String(r[o.x]), o.series.map(s => ({color: s.color, label: s.label, value: tf(num(r[s.key]), r)})), cx * k, top * k);
+    })
+    .on('pointerleave', () => { rule.attr('opacity', 0); dots.forEach(d => d.attr('opacity', 0)); tip.hidden = true; });
+}
+
+function natiBars(el, rows) {
+  const H = 240;
+  const {svg, W} = makeSvg(el, H);
+  const byYear = new Map(rows.map(r => [num(r.anno), num(r.nati)]));
+  const years = d3.range(d3.min(rows, r => num(r.anno)), d3.max(rows, r => num(r.anno)) + 1);
+  const y = d3.scaleLinear([0, d3.max(rows, r => num(r.nati))], [H - 26, 24]).nice(4);
+  const yt = y.ticks(4);
+  const yf = t => t === 0 ? '0' : f0.format(t / 1000) + ' mila';
+  const ml = d3.max(yt, t => measure(svg, yf(t))) + 10;
+  const x = d3.scaleBand(years, [ml, W - 12]).padding(0.28);
+  const g = svg.append('g');
+  g.selectAll('line.gl').data(yt).join('line').attr('class', 'nt-gridline').attr('x1', ml).attr('x2', W - 12).attr('y1', d => y(d)).attr('y2', d => y(d));
+  g.selectAll('text.yt').data(yt).join('text').attr('class', 'nt-tick').attr('x', ml - 8).attr('y', d => y(d)).attr('dy', '0.32em').attr('text-anchor', 'end').text(yf);
+  const bw = Math.min(32, x.bandwidth());
+  const avail = years.filter(yr => byYear.has(yr));
+  const tip = makeTip(el);
+  g.selectAll('rect.b').data(avail).join('rect')
+    .attr('x', yr => x(yr) + (x.bandwidth() - bw) / 2).attr('width', bw)
+    .attr('y', yr => y(byYear.get(yr))).attr('height', yr => y(0) - y(byYear.get(yr)))
+    .attr('rx', 4).style('fill', yr => yr === years[years.length - 1] ? C[0] : MUTED)
+    .on('pointermove', (ev, yr) => {
+      const k = el.clientWidth / W;
+      showTip(tip, el, String(yr), [{label: 'Nati', value: f0.format(byYear.get(yr))}], (x(yr) + x.bandwidth() / 2) * k, y(byYear.get(yr)) * k);
+    })
+    .on('pointerleave', () => { tip.hidden = true; });
+  const first = avail[0], last = avail[avail.length - 1];
+  [first, last].forEach(yr => g.append('text').attr('class', 'nt-val').attr('x', x(yr) + x.bandwidth() / 2).attr('y', y(byYear.get(yr)) - 6).attr('text-anchor', yr === first ? 'start' : 'end').text(f0.format(byYear.get(yr))));
+  const lab = x.bandwidth() >= 26 ? avail : avail.filter(yr => yr === first || yr === last || yr % 5 === 3 || yr === 2021);
+  g.selectAll('text.xt').data(lab).join('text').attr('class', 'nt-tick').attr('x', yr => x(yr) + x.bandwidth() / 2).attr('y', H - 6).attr('text-anchor', 'middle').text(yr => x.bandwidth() >= 26 ? String(yr) : String(yr));
+  g.append('line').attr('class', 'nt-axisline').attr('x1', ml).attr('x2', W - 12).attr('y1', y(0)).attr('y2', y(0));
+}
+
+function hbarStack(el, rows, o) {
+  const rowH = o.rowH || 24;
+  const H = rows.length * rowH + 24;
+  const {svg, W} = makeSvg(el, H);
+  const ml = d3.max(rows, r => measure(svg, String(r[o.cat]))) + 10;
+  const totals = rows.map(r => d3.sum(o.keys, k => num(r[k.key])));
+  const mr = o.labelFmt ? d3.max(rows, r => measure(svg, o.labelFmt(r))) + 18 : 14;
+  const x = d3.scaleLinear([0, o.max != null ? o.max : d3.max(totals)], [ml, W - mr]);
+  if (o.max == null) x.nice(4);
+  const xt = x.ticks(4);
+  const g = svg.append('g');
+  const top = rows.length * rowH;
+  g.selectAll('line.gl').data(xt).join('line').attr('class', 'nt-gridline').attr('x1', d => x(d)).attr('x2', d => x(d)).attr('y1', 0).attr('y2', top);
+  g.selectAll('text.xt').data(xt).join('text').attr('class', 'nt-tick').attr('x', d => x(d)).attr('y', top + 16).attr('text-anchor', (d, i) => i === xt.length - 1 ? 'end' : i === 0 ? 'start' : 'middle').text(d => o.fmt(d));
+  const tip = makeTip(el);
+  rows.forEach((r, i) => {
+    const yy = i * rowH;
+    g.append('text').attr('class', 'nt-tick').attr('x', ml - 8).attr('y', yy + rowH / 2).attr('dy', '0.32em').attr('text-anchor', 'end').text(String(r[o.cat]));
+    let acc = 0;
+    o.keys.forEach(k => {
+      const v = num(r[k.key]);
+      g.append('rect').attr('x', x(acc)).attr('y', yy + 4).attr('width', Math.max(0, x(acc + v) - x(acc) - 1)).attr('height', rowH - 8).attr('rx', o.keys.length === 1 ? 4 : 0).style('fill', k.colorFor ? k.colorFor(r) : k.color)
+        .on('pointermove', ev => {
+          const [px, py] = d3.pointer(ev, svg.node());
+          const kk = el.clientWidth / W;
+          showTip(tip, el, String(r[o.cat]), o.keys.map(kx => ({color: kx.color, label: kx.label, value: (o.tipFmt || o.fmt)(num(r[kx.key]))})), px * kk, py * kk);
+        })
+        .on('pointerleave', () => { tip.hidden = true; });
+      acc += v;
+    });
+    if (o.labelFmt) g.append('text').attr('class', 'nt-val').attr('x', x(acc) + 6).attr('y', yy + rowH / 2).attr('dy', '0.32em').text(o.labelFmt(r));
+  });
+}
+
+function contestoBars(el, ids, accent) {
+  const all = rowsOf('contesto');
+  const rows = ids.map(id => all.find(r => r.id === id)).filter(Boolean);
+  hbarStack(el, rows, {
+    cat: 'etichetta', labelFmt: r => r.testo, fmt: v => f0.format(v), tipFmt: v => f1.format(v),
+    keys: [{key: 'valore', label: 'Valore', colorFor: r => accent.includes(r.id) ? C[0] : MUTED}]
+  });
+}
+
+function dumbbell(el, rows, o) {
+  const rowH = 24;
+  const H = rows.length * rowH + 24;
+  const {svg, W} = makeSvg(el, H);
+  const ml = d3.max(rows, r => measure(svg, String(r[o.cat]))) + 12;
+  const vals = rows.flatMap(r => [num(r[o.a]), num(r[o.b])]);
+  const mr = measure(svg, o.fmt(d3.max(vals))) + 16;
+  const x = d3.scaleLinear([o.min != null ? o.min : d3.min(vals), o.max != null ? o.max : d3.max(vals)], [ml, W - mr]).nice(5);
+  const xt = x.ticks(5);
+  const g = svg.append('g');
+  const top = rows.length * rowH;
+  g.selectAll('line.gl').data(xt).join('line').attr('class', 'nt-gridline').attr('x1', d => x(d)).attr('x2', d => x(d)).attr('y1', 0).attr('y2', top);
+  g.selectAll('text.xt').data(xt).join('text').attr('class', 'nt-tick').attr('x', d => x(d)).attr('y', top + 16).attr('text-anchor', 'middle').text(d => o.fmt(d));
+  const tip = makeTip(el);
+  rows.forEach((r, i) => {
+    const cy = i * rowH + rowH / 2;
+    const a = num(r[o.a]), b = num(r[o.b]);
+    const col = b >= a ? C[0] : C[3];
+    const strong = o.highlight && o.highlight(r);
+    g.append('text').attr('class', 'nt-tick').attr('x', ml - 10).attr('y', cy).attr('dy', '0.32em').attr('text-anchor', 'end').style('fill', strong ? 'var(--color-fg)' : null).text(String(r[o.cat]));
+    g.append('line').attr('x1', x(a)).attr('x2', x(b)).attr('y1', cy).attr('y2', cy).style('stroke', MUTED).attr('stroke-width', 2);
+    g.append('circle').attr('cx', x(a)).attr('cy', cy).attr('r', 4).style('fill', 'var(--color-panel)').style('stroke', MUTED).attr('stroke-width', 2);
+    g.append('circle').attr('cx', x(b)).attr('cy', cy).attr('r', 5).style('fill', o.oneColor ? C[0] : col);
+    g.append('text').attr('class', 'nt-val').attr('x', x(Math.max(a, b)) + 9).attr('y', cy).attr('dy', '0.32em').text(o.fmt(b));
+    g.append('rect').attr('x', 0).attr('y', cy - rowH / 2).attr('width', W).attr('height', rowH).attr('fill', 'transparent')
+      .on('pointermove', ev => {
+        const kk = el.clientWidth / W;
+        showTip(tip, el, String(r[o.cat]), [{label: o.aLabel, value: (o.tipFmt || o.fmt)(a)}, {label: o.bLabel, value: (o.tipFmt || o.fmt)(b)}], x(b) * kk, (cy - 6) * kk);
+      })
+      .on('pointerleave', () => { tip.hidden = true; });
+  });
+}
+
+function fillTable(id, rows, cols, keyCol) {
+  const table = document.getElementById(id);
+  const tb = table.querySelector('tbody');
+  tb.replaceChildren();
+  rows.forEach(r => {
+    const tr = document.createElement('tr');
+    if (keyCol) tr.dataset.key = String(r[keyCol]);
+    cols.forEach(c => {
+      const td = document.createElement('td');
+      const text = c.fmt ? c.fmt(r[c.field], r) : String(r[c.field]);
+      const href = c.link ? String(r[c.link] || '') : '';
+      if (href.startsWith('https://')) {
+        const a = document.createElement('a');
+        a.href = href;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = text;
+        td.appendChild(a);
+      } else td.textContent = text;
+      if (c.right) td.className = 'r';
+      tr.appendChild(td);
+    });
+    tb.appendChild(tr);
+  });
+}
+function clearTable(id) { document.getElementById(id).querySelector('tbody').replaceChildren(); }
+
+let linked = false;
+document.querySelectorAll('#dash-root [data-go]').forEach(b => b.addEventListener('click', () => {
+  const el = document.getElementById(b.dataset.go);
+  if (el) { el.scrollIntoView({behavior: 'smooth', block: 'start'}); dash.setLink(el.id); }
+}));
+
+dash.onData(() => {
+  const fs = statusOf(['fatti']);
+  const fatti = fs === 'ok' ? new Map(rowsOf('fatti').map(r => [r.k, r.testo])) : new Map();
+  document.querySelectorAll('#dash-root span[data-source="fatti"]').forEach(s => {
+    const k = decodeURIComponent((s.dataset.where || '').replace(/^k=/, ''));
+    s.textContent = fatti.get(k) || '—';
+    s.classList.toggle('dash-skeleton', fs === 'loading');
+  });
+
+  const cs = statusOf(['contesto']);
+  const ctx = cs === 'ok' ? new Map(rowsOf('contesto').map(r => [r.id, r.testo])) : new Map();
+  document.querySelectorAll('#dash-root span[data-source="contesto"]').forEach(s => {
+    const k = decodeURIComponent((s.dataset.where || '').replace(/^id=/, ''));
+    s.textContent = ctx.get(k) || '—';
+    s.classList.toggle('dash-skeleton', cs === 'loading');
+  });
+  [['ch-motivi', ['mot_economia', 'mot_anziani', 'mot_lavoro', 'mot_figli'], ['mot_economia', 'mot_lavoro']],
+   ['ch-alim', ['alim_coppia_giovane', 'alim_media', 'alim_3figli'], ['alim_3figli']],
+   ['ch-poverta', ['pov_famiglie', 'pov_1figlio', 'pov_2figli', 'pov_3figli', 'pov_monogen', 'pov_stranieri'], ['pov_3figli', 'pov_stranieri']],
+   ['ch-famiglie', ['unipers_2005', 'unipers_2025', 'unipers_2050'], ['unipers_2050']],
+   ['ch-ia', ['ia_assistenti_genz', 'ia_consigli', 'ia_delega', 'ia_uso_stabile', 'ia_assistenti'], ['ia_assistenti_genz', 'ia_delega']],
+   ['ch-ia-gdo', ['gdo_ia_test', 'retailer_agentic', 'gdo_ia_pioneer', 'gdo_ia_scala'], ['gdo_ia_scala']]
+  ].forEach(([id, ids, accent]) => {
+    const c = document.getElementById(id);
+    if (prep(c, ['contesto'])) contestoBars(c, ids, accent);
+  });
+  if (cs === 'ok') fillTable('t-fonti', rowsOf('contesto'), [
+    {field: 'tema'}, {field: 'indicatore'}, {field: 'testo', right: true}, {field: 'anno'}, {field: 'fonte', link: 'url'}
+  ], 'id'); else clearTable('t-fonti');
+
+  const es = statusOf(['exec_fatti']);
+  const ex = es === 'ok' ? new Map(rowsOf('exec_fatti').map(r => [r.k, r.testo])) : new Map();
+  document.querySelectorAll('#dash-root span[data-source="exec_fatti"]').forEach(s => {
+    const k = decodeURIComponent((s.dataset.where || '').replace(/^k=/, ''));
+    s.textContent = ex.get(k) || '—';
+    s.classList.toggle('dash-skeleton', es === 'loading');
+  });
+
+  const cp = document.getElementById('ch-prezzi');
+  if (prep(cp, ['prezzi_infanzia'])) {
+    const codes = [['13301', C[3]], ['01192', C[0]], ['00', MUTED], ['03123', C[1]], ['092122', C[2]], ['132912', C[4]]];
+    const pr = rowsOf('prezzi_infanzia');
+    const voci = new Map(pr.map(r => [r.codice_ecoicop, r.voce]));
+    const wide = d3.groups(pr.filter(r => codes.some(c => c[0] === r.codice_ecoicop)), r => Number(r.anno))
+      .map(([anno, rs]) => Object.assign({anno}, ...rs.map(r => ({['c' + r.codice_ecoicop]: Number(r.indice_2015_100)}))))
+      .sort((a, b) => a.anno - b.anno);
+    lineChart(cp, wide, {x: 'anno', yMin: 85, yMax: 130, ref: 100, yFmt: v => f0.format(v), tipFmt: v => f1.format(v), tipHead: r => 'Anno ' + r.anno,
+      series: codes.map(([c, col]) => ({key: 'c' + c, label: voci.get(c), color: col}))});
+  }
+  if (statusOf(['prezzi_sintesi']) === 'ok') fillTable('t-prezzi', rowsOf('prezzi_sintesi'), [
+    {field: 'voce'}, {field: 'var_2025', right: true, fmt: v => signed(v, 1)}, {field: 'var_dal_2015', right: true, fmt: v => signed(v, 1)}
+  ]); else clearTable('t-prezzi');
+  const cc = document.getElementById('ch-ciclo');
+  if (prep(cc, ['spese_tipologia'])) hbarStack(cc, rowsOf('spese_tipologia'), {
+    cat: 'etichetta', labelFmt: r => f0.format(num(r.spesa_2025)) + ' €', fmt: v => f0.format(v), tipFmt: v => f0.format(v) + ' €',
+    keys: [{key: 'spesa_2025', label: 'Spesa mensile 2025', colorFor: r => r.tipologia === 'Persona sola' ? C[1] : r.tipologia === 'Coppia senza figli' ? MUTED : C[3]}]
+  });
+  if (statusOf(['proiezione_categorie']) === 'ok') fillTable('t-categorie', rowsOf('proiezione_categorie'), [
+    {field: 'categoria'}, {field: 'eta'},
+    {field: 'vol_2030', right: true, fmt: v => f0.format(v * 100)}, {field: 'vol_2035', right: true, fmt: v => f0.format(v * 100)},
+    {field: 'vol_2035_min', right: true, fmt: v => f0.format(v * 100)}, {field: 'vol_2035_max', right: true, fmt: v => f0.format(v * 100)},
+    {field: 'prezzo_annuo', right: true, fmt: v => signed(v, 1)}, {field: 'valore_2035', right: true, fmt: v => f0.format(v * 100)}
+  ]); else clearTable('t-categorie');
+  if (statusOf(['fonti']) === 'ok') fillTable('t-fonti-usate', rowsOf('fonti'), [
+    {field: 'fonte'}, {field: 'uso'}, {field: 'anno'}, {field: 'lettura'}
+  ], 'id'); else clearTable('t-fonti-usate');
+
+  let el = document.getElementById('ch-nati');
+  if (prep(el, ['nati_indicatori'])) natiBars(el, rowsOf('nati_indicatori'));
+
+  el = document.getElementById('ch-tft');
+  if (prep(el, ['nati_indicatori'])) lineChart(el, rowsOf('nati_indicatori'), {
+    x: 'anno', points: true, yMin: 0, yMax: 2.6, yFmt: v => f1.format(v), tipFmt: v => f2.format(v),
+    series: [{key: 'tft_italiane', label: 'Italiane', color: C[0]}, {key: 'tft_straniere', label: 'Straniere', color: C[1]}, {key: 'tft', label: 'Totale', color: MUTED}]
+  });
+
+  el = document.getElementById('ch-coorti');
+  if (prep(el, ['coorti_ordine'])) lineChart(el, rowsOf('coorti_ordine'), {
+    x: 'coorte', yMin: 0, yMax: 1, yFmt: v => f1.format(v), tipFmt: v => f2.format(v), tipHead: r => 'Donne nate nel ' + r.coorte,
+    series: [{key: 'primo', label: 'Primo figlio', color: C[0]}, {key: 'secondo', label: 'Secondo figlio', color: C[1]}, {key: 'terzo_e_oltre', label: 'Terzo e oltre', color: C[2]}]
+  });
+
+  el = document.getElementById('ch-eta');
+  if (prep(el, ['fecondita_eta'])) lineChart(el, rowsOf('fecondita_eta'), {
+    x: 'eta', yMin: 0, yFmt: v => f0.format(v), tipFmt: v => f1.format(v), tipHead: r => r.eta + ' anni',
+    series: [{key: 't1995', label: '1995', color: MUTED}, {key: 't2010', label: '2010', color: C[1]}, {key: 't2025', label: '2025', color: C[0]}]
+  });
+
+  el = document.getElementById('ch-quote');
+  if (prep(el, ['quote_eta'])) hbarStack(el, rowsOf('quote_eta'), {
+    cat: 'anno', max: 1, rowH: 24, fmt: v => f0.format(v * 100) + '%', tipFmt: v => f1.format(v * 100) + '%',
+    keys: [{key: 'meno_25', label: 'Sotto i 25 anni', color: C[2]}, {key: 'da_25_a_34', label: 'Da 25 a 34', color: MUTED}, {key: 'da_35', label: '35 e oltre', color: C[0]}]
+  });
+
+  el = document.getElementById('ch-titolo');
+  if (prep(el, ['fecondita_titolo'])) lineChart(el, rowsOf('fecondita_titolo'), {
+    x: 'eta', yMin: 0, yFmt: v => f0.format(v), tipFmt: v => f1.format(v), tipHead: r => r.eta + ' anni',
+    series: [{key: 'licenza_media', label: 'Fino alla licenza media', color: C[2]}, {key: 'diploma', label: 'Diploma', color: C[1]}, {key: 'laurea', label: 'Laurea e oltre', color: C[0]}]
+  });
+
+  el = document.getElementById('ch-fm');
+  if (prep(el, ['nati_indicatori'])) lineChart(el, rowsOf('nati_indicatori'), {
+    x: 'anno', points: true, yMin: 0, yMax: 50, height: 200, yFmt: pctPt(0), tipFmt: pctPt(1),
+    series: [{key: 'pct_fuori_matrimonio', label: 'Fuori dal matrimonio', color: C[0]}]
+  });
+
+  el = document.getElementById('ch-fm-rip');
+  if (prep(el, ['fuori_matrimonio_ripartizioni'])) dumbbell(el, rowsOf('fuori_matrimonio_ripartizioni'), {
+    cat: 'ripartizione', a: 'pct_1995', b: 'pct_2025', aLabel: '1995', bLabel: '2025', min: 0, max: 60, oneColor: true,
+    fmt: pctPt(0), tipFmt: pctPt(1), highlight: r => r.ripartizione === 'Italia'
+  });
+
+  el = document.getElementById('ch-cognome');
+  if (prep(el, ['doppio_cognome'])) lineChart(el, rowsOf('doppio_cognome'), {
+    x: 'anno', points: true, yMin: 0, yMax: 8, yFmt: pctPt(0), tipFmt: pctPt(1),
+    series: [{key: 'tutte_le_coppie', label: 'Tutte le coppie', color: C[0]}, {key: 'coppie_italiane', label: 'Coppie italiane', color: C[1]}, {key: 'coppie_straniere_miste_non_latine', label: 'Straniere o miste, non latine', color: C[2]}]
+  });
+
+  el = document.getElementById('ch-paesi');
+  if (prep(el, ['paesi_genitori'])) hbarStack(el, rowsOf('paesi_genitori'), {
+    cat: 'paese', fmt: v => f0.format(v),
+    keys: [{key: 'entrambi_stranieri', label: 'Entrambi stranieri', color: C[0]}, {key: 'padre_ita_madre_str', label: 'Padre italiano, madre straniera', color: C[1]}, {key: 'padre_str_madre_ita', label: 'Padre straniero, madre italiana', color: C[2]}]
+  });
+
+  el = document.getElementById('ch-regioni');
+  if (prep(el, ['regioni_tft'])) {
+    const reg = rowsOf('regioni_tft').filter(r => r.livello === 'regione').sort((a, b) => num(b.tft_2025) - num(a.tft_2025));
+    dumbbell(el, reg, {cat: 'territorio', a: 'tft_1995', b: 'tft_2025', aLabel: '1995', bLabel: '2025', fmt: v => f2.format(v)});
+  }
+
+  el = document.getElementById('ch-proiezioni');
+  const lg = document.getElementById('lg-proiezioni');
+  lg.replaceChildren();
+  if (prep(el, ['proiezioni'])) {
+    const pr = rowsOf('proiezioni');
+    const codici = [...new Set(pr.map(r => r.codice))];
+    const nomi = new Map(pr.map(r => [r.codice, r.scenario]));
+    const cols = [MUTED, C[1], C[0]];
+    const wide = d3.groups(pr, r => r.anno).map(([anno, rs]) => Object.assign({anno}, ...rs.map(r => ({[r.codice]: r.indice * 100}))));
+    codici.forEach((c, i) => {
+      const s = document.createElement('span');
+      const sw = document.createElement('i');
+      sw.style.background = cols[i];
+      s.append(sw, document.createTextNode(nomi.get(c)));
+      lg.appendChild(s);
+    });
+    lineChart(el, wide, {
+      x: 'anno', yMin: 50, yMax: 100, ref: 100, points: false, yFmt: v => f0.format(v), tipFmt: v => signed(v / 100 - 1, 0), tipHead: r => 'Anno ' + r.anno,
+      series: codici.map((c, i) => ({key: c, label: nomi.get(c), color: cols[i]}))
+    });
+  }
+
+  const tOk = id => statusOf([id]) === 'ok';
+  if (tOk('impatto_gdo')) fillTable('t-impatto', rowsOf('impatto_gdo'), [
+    {field: 'scenario'},
+    {field: 'var_0_14', right: true, fmt: v => signed(v, 0)},
+    {field: 'bambini_in_meno', right: true, fmt: v => f2.format(v / 1e6) + ' mln'},
+    {field: 'quota_consumi', right: true, fmt: v => signed(v, 1)},
+    {field: 'spesa_min_mld', right: true, fmt: v => f1.format(v) + ' mld €'},
+    {field: 'spesa_max_mld', right: true, fmt: v => f1.format(v) + ' mld €'}
+  ]); else clearTable('t-impatto');
+
+  if (tOk('nomi_top15')) fillTable('t-nomi', rowsOf('nomi_top15'), [
+    {field: 'posizione'}, {field: 'maschile'}, {field: 'nati_m', right: true, fmt: v => f0.format(num(v))},
+    {field: 'femminile'}, {field: 'nati_f', right: true, fmt: v => f0.format(num(v))},
+    {field: 'maschile_str'}, {field: 'femminile_str'}
+  ]); else clearTable('t-nomi');
+
+  if (tOk('ipotesi_gdo')) fillTable('t-ipotesi', rowsOf('ipotesi_gdo'), [
+    {field: 'descrizione'},
+    {field: 'valore', right: true, fmt: (v, r) => r.unita === 'quota annua' ? signed(num(v), 0) : num(v) >= 1e6 ? f0.format(num(v) / 1e6) + ' mln' : new Intl.NumberFormat('it-IT').format(num(v))},
+    {field: 'unita'}, {field: 'fonte'}
+  ], 'parametro'); else clearTable('t-ipotesi');
+
+  if (!linked && fs === 'ok') {
+    linked = true;
+    const named = document.getElementById(location.hash.slice(1));
+    if (named) { named.scrollIntoView(); dash.setLink(named.id); }
+  }
+});
+</script>
+
+</div>
+<footer class="site-foot">Documento di lavoro in bozza, da validare prima di qualsiasi diffusione. Dati ISTAT e fonti pubbliche elencate nella sezione «Fonti, metodo e limiti». Le cifre riprese da stampa vanno verificate sulle fonti originali.</footer>
+</body>
+</html>

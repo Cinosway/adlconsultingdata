@@ -1,0 +1,29 @@
+territorio,livello,tft_italiane_2025,tft_straniere_2025,tft_2025,tft_1995,eta_italiane_2025,eta_straniere_2025,eta_2025,eta_1995
+Piemonte,regione,1.01,1.72,1.1,1.04,33.4,29.9,32.7,30.2
+Valle d'Aosta/Vallée d'Aoste,regione,1.05,1.75,1.11,1.1,32.8,29.3,32.3,30
+Lombardia,regione,1.05,1.82,1.16,1.07,33.7,29.9,32.9,30.8
+Bolzano/Bozen,provincia,1.46,2.19,1.54,1.39,32.3,29.9,32,30
+Trento,provincia,1.17,1.95,1.24,1.27,33.1,29.8,32.6,30.4
+Trentino-Alto Adige,regione,1.31,2.08,1.4,1.34,32.7,29.8,32.3,30.2
+Veneto,regione,1.06,1.87,1.16,1.07,33.5,29.7,32.8,30.6
+Friuli-Venezia Giulia,regione,1.05,1.83,1.15,0.95,33.5,29.5,32.8,30.6
+Liguria,regione,0.98,1.84,1.11,0.94,33.6,29.5,32.6,30.8
+Emilia-Romagna,regione,0.99,1.88,1.14,0.97,33.6,30,32.7,30.3
+Toscana,regione,1.01,1.56,1.08,0.99,33.8,29.8,33,30.4
+Umbria,regione,0.99,1.61,1.06,1.08,33.2,29.7,32.6,30.1
+Marche,regione,1.02,1.76,1.11,1.11,33.6,29.9,32.9,30.3
+Lazio,regione,1.02,1.43,1.06,1.11,33.8,30.1,33.2,30.4
+Abruzzo,regione,1.02,1.66,1.07,1.19,33.4,29.7,32.9,30
+Molise,regione,1,1.42,1.02,1.22,33.4,29.5,33,29.4
+Campania,regione,1.2,1.73,1.22,1.52,32.6,30,32.4,28.9
+Puglia,regione,1.08,1.71,1.11,1.38,32.8,29.6,32.6,29.1
+Basilicata,regione,1.04,1.83,1.08,1.31,34,29.1,33.6,29.6
+Calabria,regione,1.17,1.56,1.19,1.4,32.6,29.7,32.4,28.9
+Sicilia,regione,1.19,1.82,1.22,1.49,32,29.8,31.8,28.6
+Sardegna,regione,0.83,1.27,0.85,1.06,33.4,29.9,33.2,30.5
+Nord-ovest,ripartizione,1.03,1.8,1.14,1.05,33.6,29.9,32.8,30.7
+Nord-est,ripartizione,1.06,1.89,1.17,1.05,33.4,29.8,32.7,30.5
+Centro,ripartizione,1.01,1.53,1.07,1.07,33.7,29.9,33.1,30.4
+Sud,ripartizione,1.14,1.68,1.16,1.42,32.8,29.8,32.6,29
+Isole,ripartizione,1.11,1.71,1.14,1.4,32.2,29.8,32,29.1
+ITALIA,ripartizione,1.07,1.74,1.14,1.19,33.2,29.9,32.7,29.8

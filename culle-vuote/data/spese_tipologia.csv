@@ -1,0 +1,11 @@
+id,tipologia,dettaglio,etichetta,spesa_2024,spesa_2025
+ps_18_34,Persona sola,18-34 anni,Persona sola 18-34 anni,1892.86,2042.16
+ps_35_64,Persona sola,35-64 anni,Persona sola 35-64 anni,2096.96,2223.39
+ps_65,Persona sola,65 anni e più,Persona sola 65 anni e più,1794.07,1944.78
+cs_18_34,Coppia senza figli,18-34 anni,Coppia senza figli 18-34 anni,3249.79,3534.69
+cs_35_64,Coppia senza figli,35-64 anni,Coppia senza figli 35-64 anni,3139.15,3187.03
+cs_65,Coppia senza figli,65 anni e più,Coppia senza figli 65 anni e più,2822.3,2816.25
+cf_1,Coppia con figli,1 figlio,Coppia con 1 figlio,3446.13,3431.15
+cf_2,Coppia con figli,2 figli,Coppia con 2 figli,3805.38,3618.44
+cf_3,Coppia con figli,3 o più figli,Coppia con 3 o più figli,3683.93,3633.07
+mono,Un solo genitore,,Un solo genitore,2623.6,2746.41

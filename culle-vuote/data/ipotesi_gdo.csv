@@ -1,0 +1,8 @@
+parametro,descrizione,valore,unita,fonte
+scenario_tenuta,Scenario nascite ferme: variazione annua dei nati dal 2026,0,quota annua,ipotesi
+scenario_inerziale,Scenario calo moderato: variazione annua dei nati dal 2026,-0.02,quota annua,ipotesi
+scenario_trend,Scenario calo come 2018-2025: variazione annua dei nati dal 2026,-0.03,quota annua,ipotesi vicina al ritmo medio 2018-2025
+peso_bambino_ocse,Peso di un bambino sotto i 14 anni rispetto al capofamiglia,0.3,unità di consumo,scala di equivalenza OCSE modificata
+unita_consumo_italia,Unità di consumo totali in Italia,41000000,unità di consumo,stima: circa 26 milioni di famiglie più gli altri componenti pesati
+spesa_figlio_min,Spesa aggiuntiva in GDO per figlio (minimo),1200,euro l'anno,ipotesi: alimentari più cura casa e persona
+spesa_figlio_max,Spesa aggiuntiva in GDO per figlio (massimo),2000,euro l'anno,ipotesi: alimentari più cura casa e persona
